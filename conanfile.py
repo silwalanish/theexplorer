@@ -13,6 +13,11 @@ class theexplorerRecipe(ConanFile):
     # Sources are located in the same place as this recipe, copy them to the recipe
     exports_sources = "CMakeLists.txt", "src/*"
 
+    def requirements(self):
+        self.requires("glfw/3.3.8")
+        self.requires("glew/2.2.0")
+        self.requires("glm/cci.20230113")
+
     def layout(self):
         cmake_layout(self)
 
