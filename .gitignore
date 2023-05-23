@@ -1,0 +1,13 @@
+.vs
+.vscode
+build
+bin
+obj
+
+*.ini
+*.lock
+*.sln
+*.vcxproj*
+conan*info.*
+graph_info.json
+CMakeUserPresets.json
