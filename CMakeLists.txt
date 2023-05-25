@@ -9,6 +9,7 @@ add_executable(${PROJECT_NAME}
         src/core/GameWindow.cpp
         src/core/GLFWContext.cpp
         src/core/GLEWContext.cpp
+        src/core/Application.cpp
         src/main.cpp
         )
 

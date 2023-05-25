@@ -1,34 +1,17 @@
-#include <GL/glew.h>
+#include <core/Application.hpp>
+#include <iostream>
 
-#include <core/GLEWContext.hpp>
-#include <core/GLFWContext.hpp>
-#include <core/GameWindow.hpp>
-
-int main()
+int main(int argc, char const* argv[])
 {
-    texplr::GLFWContext glfwContext(4, 3);
+    try {
+        texplr::Application app;
+        app.run();
 
-    texplr::GameWindow window("The Explorer!", 640, 480);
+    } catch (const std::exception& e) {
+        std::cerr << e.what() << '\n';
 
-    // TODO: Cache the window context that can be retrieved later.
-    texplr::GLEWContext windowContext(window);
-
-    // Loop until the user closes the window
-    while (!window.shouldClose()) {
-        // Render here
-        glClearColor(1.0f, 0.0f, 0.0f, 0.0f);
-        glClear(GL_COLOR_BUFFER_BIT);
-
-        // Swap front and back buffers
-        window.swapBuffers();
-
-        // Poll for and process events
-        glfwContext.pollEvents();
+        return EXIT_FAILURE;
     }
 
-    windowContext.destroy();
-    window.destroy();
-    glfwContext.destroy();
-
-    return 0;
+    return EXIT_SUCCESS;
 }
