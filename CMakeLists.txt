@@ -8,6 +8,8 @@ find_package(GLEW REQUIRED)
 add_executable(${PROJECT_NAME} 
         includes/core/Application.hpp
         includes/core/GameWindow.hpp
+        includes/core/Event.hpp
+        includes/core/EventBus.hpp
         includes/core/GLFWContext.hpp
         includes/core/GLFWContext.hpp
         
@@ -17,12 +19,15 @@ add_executable(${PROJECT_NAME}
         includes/ecs/ComponentManager.hpp
         includes/ecs/Entity.hpp
         includes/ecs/EntityHandle.hpp
+        includes/ecs/Events.hpp
+        includes/ecs/EntityManager.hpp
         includes/ecs/World.hpp
 
         src/core/GameWindow.cpp
         src/core/GLFWContext.cpp
         src/core/GLEWContext.cpp
         src/core/Application.cpp
+        src/core/Event.cpp
 
         src/ecs/World.cpp
         src/ecs/Entity.cpp

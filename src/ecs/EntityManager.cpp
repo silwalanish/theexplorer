@@ -1,8 +1,11 @@
 #include <ecs/EntityManager.hpp>
 
+#include <ecs/Events.hpp>
+
 namespace texplr {
 
-EntityManager::EntityManager()
+EntityManager::EntityManager(std::shared_ptr<EventBus> eventBus)
+    : m_eventBus(eventBus)
 {
 }
 
@@ -37,11 +40,11 @@ void EntityManager::destroyEntity(EntityHandle entity)
 {
     if (entity == m_lastEntity) {
         m_lastEntity--;
-        return;
+    } else {
+        m_freeEntities.insert(entity);
     }
 
-    m_freeEntities.insert(entity);
-    // TODO: Emit a event.
+    m_eventBus->notify(new EntityDestroyedEvent(entity));
 }
 
 } // namespace texplr

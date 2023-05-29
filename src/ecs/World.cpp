@@ -2,9 +2,15 @@
 
 namespace texplr {
 
-World::World() { }
+World::World(std::shared_ptr<EventBus> eventBus)
+    : m_eventBus(eventBus)
+{
+    m_entityManager = std::make_unique<EntityManager>(m_eventBus);
+}
 
-World::~World() { }
+World::~World()
+{
+}
 
 void World::update(float deltaTime)
 {

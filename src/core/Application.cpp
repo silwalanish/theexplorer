@@ -13,7 +13,8 @@ Application::Application()
     , m_window("The Explorer!", 800, 600)
     , m_glewContext(m_window)
 {
-    m_world = std::make_shared<World>();
+    m_eventBus = std::make_shared<EventBus>();
+    m_world = std::make_shared<World>(m_eventBus);
 
     Entity* camera = new Entity(m_world);
     camera->addComponent<Camera>(Camera { 0.01f, 100.0f, 90.0f, 1.33f, false });
@@ -28,8 +29,6 @@ Application::Application()
     cam = camera->getComponent<Camera>();
     std::cout << "Updated Camera:: " << cam.near << ", " << cam.far << ", " << cam.fov << ", " << cam.aspectRatio << ", " << cam.isActive << std::endl;
 
-    // TODO: Make sure components are removed when destroying entity
-    camera->removeComponent<Camera>();
     std::cout << "Has Camera Component:: " << camera->hasComponent<Camera>() << std::endl;
 
     camera->destroy();

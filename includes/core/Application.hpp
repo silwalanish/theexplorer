@@ -2,6 +2,7 @@
 
 #include <memory>
 
+#include <core/EventBus.hpp>
 #include <core/GLEWContext.hpp>
 #include <core/GLFWContext.hpp>
 #include <core/GameWindow.hpp>
@@ -22,6 +23,7 @@ private:
     GLEWContext m_glewContext;
 
     std::shared_ptr<World> m_world;
+    std::shared_ptr<EventBus> m_eventBus;
 };
 
 } // namespace texplr

@@ -3,7 +3,7 @@
 namespace texplr {
 
 Entity::Entity(std::shared_ptr<World> world)
-    : m_handle(world->m_entityManager.createEntity())
+    : m_handle(world->m_entityManager->createEntity())
     , m_world(world)
 {
 }
@@ -22,7 +22,7 @@ Entity::Entity(const Entity& entity)
 
 void Entity::destroy()
 {
-    m_world->m_entityManager.destroyEntity(m_handle);
+    m_world->m_entityManager->destroyEntity(m_handle);
     m_handle = 0;
 }
 
