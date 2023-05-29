@@ -1,8 +1,11 @@
 #pragma once
 
-#include "core/GLEWContext.hpp"
-#include "core/GLFWContext.hpp"
-#include "core/GameWindow.hpp"
+#include <memory>
+
+#include <core/GLEWContext.hpp>
+#include <core/GLFWContext.hpp>
+#include <core/GameWindow.hpp>
+#include <ecs/World.hpp>
 
 namespace texplr {
 
@@ -17,6 +20,8 @@ private:
     GLFWContext m_glfwContext;
     GameWindow m_window;
     GLEWContext m_glewContext;
+
+    std::shared_ptr<World> m_world;
 };
 
 } // namespace texplr
