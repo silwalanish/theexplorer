@@ -22,6 +22,7 @@ public:
 
     ~ComponentManager()
     {
+        m_eventBus->unsubscribe<ComponentManager<T>, EntityDestroyedEvent>(this);
         m_components.clear();
     }
 
@@ -38,12 +39,16 @@ public:
     void add(EntityHandle entity, const T& component)
     {
         m_components[entity] = component;
+        m_eventBus->notify(new ComponentAddedEvent<T>(entity, component));
     }
 
     void remove(EntityHandle entity)
     {
         if (has(entity)) {
-            m_components.erase(m_components.find(entity));
+            auto componentLoc = m_components.find(entity);
+            T component = componentLoc->second;
+            m_components.erase(componentLoc);
+            m_eventBus->notify(new ComponentRemovedEvent<T>(entity, component));
         }
     }
 

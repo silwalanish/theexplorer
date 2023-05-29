@@ -2,13 +2,13 @@
 
 namespace texplr {
 
-Entity::Entity(std::shared_ptr<World> world)
-    : m_handle(world->m_entityManager->createEntity())
+Entity::Entity(World* world)
+    : m_handle(world->createEntity())
     , m_world(world)
 {
 }
 
-Entity::Entity(EntityHandle handle, std::shared_ptr<World> world)
+Entity::Entity(EntityHandle handle, World* world)
     : m_handle(handle)
     , m_world(world)
 {
@@ -22,8 +22,13 @@ Entity::Entity(const Entity& entity)
 
 void Entity::destroy()
 {
-    m_world->m_entityManager->destroyEntity(m_handle);
+    m_world->destroyEntity(m_handle);
     m_handle = 0;
+}
+
+World* Entity::getWorld()
+{
+    return m_world;
 }
 
 EntityHandle Entity::getHandle() const
@@ -31,7 +36,7 @@ EntityHandle Entity::getHandle() const
     return m_handle;
 }
 
-std::shared_ptr<World> Entity::getWorld() const
+const World* Entity::getWorld() const
 {
     return m_world;
 }

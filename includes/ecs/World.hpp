@@ -2,6 +2,7 @@
 
 #include <map>
 #include <memory>
+#include <utility>
 #include <vector>
 
 #include <core/EventBus.hpp>
@@ -9,6 +10,7 @@
 #include <ecs/ComponentManager.hpp>
 #include <ecs/EntityHandle.hpp>
 #include <ecs/EntityManager.hpp>
+#include <ecs/System.hpp>
 
 namespace texplr {
 
@@ -22,11 +24,66 @@ public:
 
     void update(float deltaTime);
 
-private:
-    std::shared_ptr<EventBus> m_eventBus;
-    std::unique_ptr<EntityManager> m_entityManager;
-    std::map<uint32_t, std::unique_ptr<BaseComponentManager>> m_componentManagers;
+    template <typename SystemType, typename... SystemArgs>
+    void registerSystem(SystemArgs&&... args)
+    {
+        std::unique_ptr<SystemType> system = std::make_unique<SystemType>(std::forward<SystemArgs>(args)...);
+        system->registerWorld(this);
 
+        m_systems.push_back(std::move(system));
+    }
+
+    EntityHandle createEntity();
+    void destroyEntity(EntityHandle handle);
+
+    template <typename ComponentType>
+    void addComponent(EntityHandle handle, const ComponentType& component)
+    {
+        getComponentManager<ComponentType>()->add(handle, component);
+    }
+
+    template <typename ComponentType>
+    ComponentType& getComponent(EntityHandle handle)
+    {
+        return getComponentManager<ComponentType>()->get(handle);
+    }
+
+    template <typename ComponentType>
+    void removeComponent(EntityHandle handle)
+    {
+        getComponentManager<ComponentType>()->remove(handle);
+    }
+
+    template <typename ComponentType>
+    bool hasComponent(EntityHandle handle)
+    {
+        return getComponentManager<ComponentType>()->has(handle);
+    }
+
+    template <typename ComponentType>
+    bool hasAllComponent(EntityHandle handle)
+    {
+        return hasComponent<ComponentType>(handle);
+    }
+
+    template <typename ComponentType1, typename ComponentType2, typename... OtherComponentTypes>
+    bool hasAllComponent(EntityHandle handle)
+    {
+        return hasComponent<ComponentType1>(handle) && hasAllComponent<ComponentType2, OtherComponentTypes...>(handle);
+    }
+
+    std::shared_ptr<EventBus> getEventBus() const;
+    EntityHandle getActiveCamera() const;
+
+    void setActiveCamera(EntityHandle camera);
+
+private:
+    std::map<uint32_t, std::unique_ptr<BaseComponentManager>> m_componentManagers;
+    std::unique_ptr<EntityManager> m_entityManager;
+    std::vector<std::unique_ptr<System>> m_systems;
+    std::shared_ptr<EventBus> m_eventBus;
+
+    // TODO: Move to scene class
     EntityHandle m_activeCamera = 0;
 
     template <typename ComponentType>

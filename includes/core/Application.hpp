@@ -22,8 +22,8 @@ private:
     GameWindow m_window;
     GLEWContext m_glewContext;
 
-    std::shared_ptr<World> m_world;
     std::shared_ptr<EventBus> m_eventBus;
+    std::shared_ptr<World> m_world;
 };
 
 } // namespace texplr

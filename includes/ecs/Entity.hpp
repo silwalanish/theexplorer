@@ -9,43 +9,45 @@ namespace texplr {
 
 struct Entity {
 public:
-    Entity(std::shared_ptr<World> world);
-    Entity(EntityHandle handle, std::shared_ptr<World> world);
+    Entity(World* world);
+    Entity(EntityHandle handle, World* world);
     Entity(const Entity& entity);
 
     template <typename ComponentType>
     void addComponent(const ComponentType& component)
     {
-        m_world->getComponentManager<ComponentType>()->add(m_handle, component);
+        m_world->addComponent(m_handle, component);
     }
 
     template <typename ComponentType>
     ComponentType& getComponent()
     {
-        return m_world->getComponentManager<ComponentType>()->get(m_handle);
+        return m_world->getComponent<ComponentType>(m_handle);
     }
 
     template <typename ComponentType>
     void removeComponent()
     {
-        m_world->getComponentManager<ComponentType>()->remove(m_handle);
+        m_world->removeComponent<ComponentType>(m_handle);
     }
 
     template <typename ComponentType>
     bool hasComponent()
     {
-        return m_world->getComponentManager<ComponentType>()->has(m_handle);
+        return m_world->hasComponent<ComponentType>(m_handle);
     }
 
     void destroy();
 
+    World* getWorld();
+
     EntityHandle getHandle() const;
-    std::shared_ptr<World> getWorld() const;
+    const World* getWorld() const;
     bool isAlive() const;
 
 private:
     EntityHandle m_handle = 0;
-    std::shared_ptr<World> m_world = nullptr;
+    World* m_world = nullptr;
 };
 
 } // namespace texplr

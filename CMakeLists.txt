@@ -14,6 +14,9 @@ add_executable(${PROJECT_NAME}
         includes/core/GLFWContext.hpp
         
         includes/components/Camera.hpp
+        includes/components/Transform.hpp
+
+        includes/systems/ActiveCameraFinder.hpp
 
         includes/ecs/Component.hpp
         includes/ecs/ComponentManager.hpp
@@ -22,6 +25,8 @@ add_executable(${PROJECT_NAME}
         includes/ecs/Events.hpp
         includes/ecs/EntityManager.hpp
         includes/ecs/World.hpp
+        includes/ecs/System.hpp
+        includes/ecs/ScopedSystem.hpp
 
         src/core/GameWindow.cpp
         src/core/GLFWContext.cpp
@@ -33,6 +38,9 @@ add_executable(${PROJECT_NAME}
         src/ecs/Entity.cpp
         src/ecs/Component.cpp
         src/ecs/EntityManager.cpp
+        src/ecs/System.cpp
+
+        src/systems/ActiveCameraFinder.cpp
 
         src/main.cpp
         )
