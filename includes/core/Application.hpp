@@ -6,7 +6,7 @@
 #include <core/GLEWContext.hpp>
 #include <core/GLFWContext.hpp>
 #include <core/GameWindow.hpp>
-#include <ecs/World.hpp>
+#include <core/Scene.hpp>
 
 namespace texplr {
 
@@ -17,13 +17,18 @@ public:
 
     void run();
 
+    std::shared_ptr<EventBus> getEventBus() const;
+    std::shared_ptr<Scene> getScene() const;
+
+    void setScene(std::shared_ptr<Scene> scene);
+
 private:
     GLFWContext m_glfwContext;
     GameWindow m_window;
     GLEWContext m_glewContext;
 
     std::shared_ptr<EventBus> m_eventBus;
-    std::shared_ptr<World> m_world;
+    std::shared_ptr<Scene> m_scene;
 };
 
 } // namespace texplr

@@ -14,6 +14,8 @@
 
 namespace texplr {
 
+class Scene;
+
 class World {
 public:
     World(std::shared_ptr<EventBus> eventBus);
@@ -72,19 +74,19 @@ public:
         return hasComponent<ComponentType1>(handle) && hasAllComponent<ComponentType2, OtherComponentTypes...>(handle);
     }
 
-    std::shared_ptr<EventBus> getEventBus() const;
-    EntityHandle getActiveCamera() const;
+    void registerToScene(Scene* scene);
 
-    void setActiveCamera(EntityHandle camera);
+    Scene* getScene();
+
+    const Scene* getScene() const;
+    std::shared_ptr<EventBus> getEventBus() const;
 
 private:
     std::map<uint32_t, std::unique_ptr<BaseComponentManager>> m_componentManagers;
     std::unique_ptr<EntityManager> m_entityManager;
     std::vector<std::unique_ptr<System>> m_systems;
     std::shared_ptr<EventBus> m_eventBus;
-
-    // TODO: Move to scene class
-    EntityHandle m_activeCamera = 0;
+    Scene* m_scene;
 
     template <typename ComponentType>
     ComponentManager<ComponentType>* getComponentManager()
@@ -95,8 +97,6 @@ private:
 
         return static_cast<ComponentManager<ComponentType>*>(m_componentManagers[ComponentType::GetId()].get());
     }
-
-    friend class Entity;
 };
 
 } // namespace texplr

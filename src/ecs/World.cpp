@@ -1,5 +1,7 @@
 #include <ecs/World.hpp>
 
+#include <core/Scene.hpp>
+
 namespace texplr {
 
 World::World(std::shared_ptr<EventBus> eventBus)
@@ -29,19 +31,24 @@ void World::destroyEntity(EntityHandle handle)
     m_entityManager->destroyEntity(handle);
 }
 
+void World::registerToScene(Scene* scene)
+{
+    m_scene = scene;
+}
+
+Scene* World::getScene()
+{
+    return m_scene;
+}
+
+const Scene* World::getScene() const
+{
+    return m_scene;
+}
+
 std::shared_ptr<EventBus> World::getEventBus() const
 {
     return m_eventBus;
-}
-
-EntityHandle World::getActiveCamera() const
-{
-    return m_activeCamera;
-}
-
-void World::setActiveCamera(EntityHandle camera)
-{
-    m_activeCamera = camera;
 }
 
 } // namespace texplr

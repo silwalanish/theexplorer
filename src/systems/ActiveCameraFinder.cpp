@@ -2,6 +2,7 @@
 
 #include <iostream>
 
+#include <core/Scene.hpp>
 #include <ecs/Entity.hpp>
 #include <ecs/World.hpp>
 
@@ -21,18 +22,19 @@ void ActiveCameraFinder::onInit()
 
 void ActiveCameraFinder::update(float deltaTime)
 {
-    m_world->setActiveCamera(0);
+    Scene* scene = m_world->getScene();
+    scene->setActiveCamera(0);
 
     for (auto entityHandle : m_registeredEntities) {
         Camera& cam = m_world->getComponent<Camera>(entityHandle);
         if (cam.isActive) {
-            m_world->setActiveCamera(entityHandle);
+            scene->setActiveCamera(entityHandle);
             break;
         }
     }
 
-    if (m_world->getActiveCamera() != 0) {
-        Camera& cam = m_world->getComponent<Camera>(m_world->getActiveCamera());
+    if (scene->getActiveCamera() != 0) {
+        Camera& cam = m_world->getComponent<Camera>(scene->getActiveCamera());
         std::cout << "Active Camera:: " << cam.near << ", " << cam.far << ", " << cam.fov << ", " << cam.aspectRatio << std::endl;
     }
 }
