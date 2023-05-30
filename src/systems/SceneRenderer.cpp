@@ -21,6 +21,7 @@ void SceneRenderer::OnUpdate(float deltaTime)
         const Mesh& mesh = m_world->getComponent<Mesh>(entity);
         std::shared_ptr<VertexArray> vao = std::make_shared<VertexArray>();
         vao->loadVertices(mesh.vertices);
+        vao->loadIndices(mesh.indices);
 
         m_vaos[entity] = vao;
     }

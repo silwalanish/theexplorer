@@ -25,8 +25,16 @@ void VertexArray::loadVertices(const std::vector<Vertex>& vertices)
     glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), reinterpret_cast<void*>(offsetof(Vertex, normal)));
     glEnableVertexAttribArray(2);
     glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, sizeof(Vertex), reinterpret_cast<void*>(offsetof(Vertex, uv)));
+}
 
-    m_vertexCount = vertices.size();
+void VertexArray::loadIndices(const std::vector<uint32_t>& indices)
+{
+    bind();
+    glGenBuffers(1, &m_ibo);
+    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_ibo);
+    glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(uint32_t) * indices.size(), indices.data(), GL_STATIC_DRAW);
+
+    m_vertexCount = indices.size();
 }
 
 void VertexArray::bind()
@@ -37,7 +45,7 @@ void VertexArray::bind()
 void VertexArray::draw()
 {
     bind();
-    glDrawArrays(GL_TRIANGLES, 0, m_vertexCount);
+    glDrawElements(GL_TRIANGLES, m_vertexCount, GL_UNSIGNED_INT, (void*)0);
 }
 
 } // namespace texplr
