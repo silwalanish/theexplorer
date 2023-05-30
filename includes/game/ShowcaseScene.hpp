@@ -1,6 +1,7 @@
 #pragma once
 
 #include <core/Scene.hpp>
+#include <systems/SceneRenderer.hpp>
 
 namespace texplr {
 
@@ -12,6 +13,7 @@ public:
     virtual void OnUpdate(float deltaTime) override;
 
 private:
+    std::shared_ptr<SceneRenderer> m_renderer;
 };
 
 } // namespace texplr

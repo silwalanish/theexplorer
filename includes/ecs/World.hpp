@@ -27,12 +27,14 @@ public:
     void update(float deltaTime);
 
     template <typename SystemType, typename... SystemArgs>
-    void registerSystem(SystemArgs&&... args)
+    std::shared_ptr<SystemType> registerSystem(SystemArgs&&... args)
     {
-        std::unique_ptr<SystemType> system = std::make_unique<SystemType>(std::forward<SystemArgs>(args)...);
+        std::shared_ptr<SystemType> system = std::make_shared<SystemType>(std::forward<SystemArgs>(args)...);
         system->registerWorld(this);
 
-        m_systems.push_back(std::move(system));
+        m_systems.push_back(system);
+
+        return system;
     }
 
     EntityHandle createEntity();
@@ -84,7 +86,7 @@ public:
 private:
     std::map<uint32_t, std::unique_ptr<BaseComponentManager>> m_componentManagers;
     std::unique_ptr<EntityManager> m_entityManager;
-    std::vector<std::unique_ptr<System>> m_systems;
+    std::vector<std::shared_ptr<System>> m_systems;
     std::shared_ptr<EventBus> m_eventBus;
     Scene* m_scene;
 

@@ -21,10 +21,16 @@ public:
         setupEvents<ComponentTypes...>();
         m_eventBus->subscribe(this, &ScopedSystem<ComponentTypes...>::OnEntityDestroyed);
 
-        onInit();
+        OnInit();
     }
 
-    virtual void onInit() { }
+    void update(float deltaTime) override
+    {
+        OnUpdate(deltaTime);
+    }
+
+    virtual void OnInit() { }
+    virtual void OnUpdate(float deltaTime) { }
 
 private:
     template <typename T>

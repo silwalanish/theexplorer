@@ -16,8 +16,9 @@ add_executable(${PROJECT_NAME}
         
         includes/components/Camera.hpp
         includes/components/Transform.hpp
+        includes/components/Mesh.hpp
 
-        includes/systems/ActiveCameraFinder.hpp
+        includes/systems/SceneRenderer.hpp
 
         includes/ecs/Component.hpp
         includes/ecs/ComponentManager.hpp
@@ -44,7 +45,7 @@ add_executable(${PROJECT_NAME}
         src/ecs/EntityManager.cpp
         src/ecs/System.cpp
 
-        src/systems/ActiveCameraFinder.cpp
+        src/systems/SceneRenderer.cpp
 
         src/game/ShowcaseScene.cpp
 

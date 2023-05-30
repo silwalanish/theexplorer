@@ -26,6 +26,7 @@ void Scene::init()
 void Scene::update(float deltaTime)
 {
     m_world->update(deltaTime);
+    OnUpdate(deltaTime);
 }
 
 std::shared_ptr<World> Scene::getWorld() const
