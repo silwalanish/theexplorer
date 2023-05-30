@@ -1,6 +1,7 @@
 #include <core/Application.hpp>
 
 #include <GL/glew.h>
+#include <chrono>
 
 namespace texplr {
 
@@ -18,17 +19,25 @@ Application::~Application()
 
 void Application::run()
 {
+    std::chrono::steady_clock::time_point startTime = std::chrono::high_resolution_clock::now();
+    std::chrono::steady_clock::time_point currentTime;
+    float deltaTime = 0.0f;
+
     while (!m_window.shouldClose()) {
+        m_glfwContext.pollEvents();
+
+        currentTime = std::chrono::high_resolution_clock::now();
+        deltaTime = std::chrono::duration<float, std::chrono::seconds::period>(currentTime - startTime).count();
+        startTime = currentTime;
+
         glClearColor(1.0f, 0.0f, 0.0f, 0.0f);
         glClear(GL_COLOR_BUFFER_BIT);
 
         if (m_scene) {
-            m_scene->update(1.0f); // TODO: Calculate deltaTime
+            m_scene->update(deltaTime);
         }
 
         m_window.swapBuffers();
-
-        m_glfwContext.pollEvents();
     }
 
     m_glewContext.destroy();
