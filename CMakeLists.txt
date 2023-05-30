@@ -22,6 +22,9 @@ add_executable(${PROJECT_NAME}
         includes/systems/SceneRenderer.hpp
 
         includes/opengl/VertexArray.hpp
+        includes/opengl/Shader.hpp
+
+        includes/shaders/BasicShader.hpp
 
         includes/ecs/Component.hpp
         includes/ecs/ComponentManager.hpp
@@ -51,6 +54,9 @@ add_executable(${PROJECT_NAME}
         src/systems/SceneRenderer.cpp
 
         src/opengl/VertexArray.cpp
+        src/opengl/Shader.cpp
+
+        src/shaders/BasicShader.cpp
 
         src/game/ShowcaseScene.cpp
 

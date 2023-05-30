@@ -2,11 +2,13 @@
 
 #include <iostream>
 
+#include <shaders/BasicShader.hpp>
+
 namespace texplr {
 
 void SceneRenderer::OnInit()
 {
-    // TODO: Initialize shaders.
+    m_shader = std::make_shared<BasicShader>();
 }
 
 void SceneRenderer::OnUpdate(float deltaTime)
@@ -26,16 +28,18 @@ void SceneRenderer::OnUpdate(float deltaTime)
 
 void SceneRenderer::begin()
 {
-    glClearColor(1.0f, 0.0f, 0.0f, 0.0f);
+    glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
     glClear(GL_COLOR_BUFFER_BIT);
 
     // TODO: Enable and clear depth buffer
+
+    m_shader->use();
 }
 
 void SceneRenderer::render()
 {
     begin();
-    // TODO: Use custom shader.
+
     // TODO: Load camera matrix.
     for (EntityHandle entity : m_registeredEntities) {
         // TODO: Load transform matrix.

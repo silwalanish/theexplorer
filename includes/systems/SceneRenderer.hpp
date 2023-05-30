@@ -6,6 +6,7 @@
 #include <components/Transform.hpp>
 #include <ecs/EntityHandle.hpp>
 #include <ecs/ScopedSystem.hpp>
+#include <opengl/Shader.hpp>
 #include <opengl/VertexArray.hpp>
 
 namespace texplr {
@@ -26,6 +27,7 @@ public:
 
 private:
     Scene* m_scene = nullptr;
+    std::shared_ptr<Shader> m_shader;
     std::map<EntityHandle, std::shared_ptr<VertexArray>> m_vaos;
 
     void begin();
