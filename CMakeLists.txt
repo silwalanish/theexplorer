@@ -14,6 +14,8 @@ add_executable(${PROJECT_NAME}
         includes/core/GLFWContext.hpp
         includes/core/Scene.hpp
         includes/core/Vertex.hpp
+        includes/core/MeshData.hpp
+        includes/core/Material.hpp
         
         includes/components/Camera.hpp
         includes/components/Transform.hpp

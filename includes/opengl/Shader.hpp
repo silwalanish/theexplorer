@@ -1,7 +1,10 @@
 #pragma once
 
 #include <GL/glew.h>
+#include <glm/glm.hpp>
 #include <string>
+
+#include <core/Material.hpp>
 
 namespace texplr {
 
@@ -12,6 +15,8 @@ public:
 
     void use();
 
+    virtual void loadMaterial(const Material& material) = 0;
+
 protected:
     GLuint m_id = 0;
 
@@ -19,6 +24,10 @@ protected:
     void addFragmentShader(const std::string& shaderSource);
 
     void link();
+
+    GLuint getUniformLocation(const std::string& uniformName);
+
+    void loadVec3(GLuint uniformLoc, const glm::vec3& value);
 
 private:
     GLuint m_vertexShader = 0;

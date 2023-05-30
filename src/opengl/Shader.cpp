@@ -98,4 +98,14 @@ GLuint Shader::compileShader(GLenum shaderType, const std::string& shaderSource)
     return shaderId;
 }
 
+GLuint Shader::getUniformLocation(const std::string& uniformName)
+{
+    return glGetUniformLocation(m_id, uniformName.c_str());
+}
+
+void Shader::loadVec3(GLuint uniformLoc, const glm::vec3& value)
+{
+    glUniform3f(uniformLoc, value.x, value.y, value.z);
+}
+
 } // namespace texplr

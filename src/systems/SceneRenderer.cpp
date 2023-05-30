@@ -20,8 +20,7 @@ void SceneRenderer::OnUpdate(float deltaTime)
 
         const Mesh& mesh = m_world->getComponent<Mesh>(entity);
         std::shared_ptr<VertexArray> vao = std::make_shared<VertexArray>();
-        vao->loadVertices(mesh.vertices);
-        vao->loadIndices(mesh.indices);
+        vao->loadMeshData(mesh.meshData);
 
         m_vaos[entity] = vao;
     }
@@ -46,7 +45,10 @@ void SceneRenderer::render()
         // TODO: Load transform matrix.
         // const Transform& transform = m_world->getComponent<Transform>(entity);
 
+        const Mesh& mesh = m_world->getComponent<Mesh>(entity);
         std::shared_ptr<VertexArray> vao = m_vaos[entity];
+
+        m_shader->loadMaterial(mesh.material);
         vao->draw();
     }
 }

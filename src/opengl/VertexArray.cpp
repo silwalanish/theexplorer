@@ -12,6 +12,12 @@ VertexArray::~VertexArray()
     glDeleteVertexArrays(1, &m_id);
 }
 
+void VertexArray::loadMeshData(const MeshData& meshData)
+{
+    loadVertices(meshData.vertices);
+    loadIndices(meshData.indices);
+}
+
 void VertexArray::loadVertices(const std::vector<Vertex>& vertices)
 {
     bind();

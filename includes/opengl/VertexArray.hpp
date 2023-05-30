@@ -4,6 +4,7 @@
 #include <cstdint>
 #include <vector>
 
+#include <core/MeshData.hpp>
 #include <core/Vertex.hpp>
 
 namespace texplr {
@@ -13,8 +14,7 @@ public:
     VertexArray();
     ~VertexArray();
 
-    void loadVertices(const std::vector<Vertex>& vertices);
-    void loadIndices(const std::vector<uint32_t>& indices);
+    void loadMeshData(const MeshData& meshData);
 
     void bind();
     void draw();
@@ -25,6 +25,9 @@ private:
     GLuint m_ibo = 0;
 
     GLsizei m_vertexCount = 0;
+
+    void loadVertices(const std::vector<Vertex>& vertices);
+    void loadIndices(const std::vector<uint32_t>& indices);
 };
 
 } // namespace texplr

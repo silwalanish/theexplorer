@@ -28,7 +28,8 @@ void ShowcaseScene::OnInit()
         { Vertex { glm::vec3(-0.5f, -0.5f, 0.0f), glm::vec3(0.0f), glm::vec2(0.0f) },
             Vertex { glm::vec3(0.5f, -0.5f, 0.0f), glm::vec3(0.0f), glm::vec2(0.0f) },
             Vertex { glm::vec3(0.0f, 0.1f, 0.0f), glm::vec3(0.0f), glm::vec2(0.0f) } },
-        { 0, 1, 2 } });
+        { 0, 1, 2 },
+        Material { glm::vec3(1.0f, 0.0f, 0.0f) } });
 
     Entity* topTri = new Entity(m_world.get());
     topTri->addComponent<Transform>(Transform { glm::vec3(0.0f), glm::vec3(0.0f), glm::vec3(0.0f) });
@@ -36,7 +37,8 @@ void ShowcaseScene::OnInit()
         { Vertex { glm::vec3(-0.5f, 0.5f, 0.0f), glm::vec3(0.0f), glm::vec2(0.0f) },
             Vertex { glm::vec3(0.5f, 0.5f, 0.0f), glm::vec3(0.0f), glm::vec2(0.0f) },
             Vertex { glm::vec3(0.0f, -0.1f, 0.0f), glm::vec3(0.0f), glm::vec2(0.0f) } },
-        { 0, 1, 2 } });
+        { 0, 1, 2 },
+        Material { glm::vec3(0.0f, 0.0f, 1.0f) } });
 
     m_renderer->setScene(this);
 }
