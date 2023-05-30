@@ -1,8 +1,12 @@
 #pragma once
 
+#include <memory>
+
 #include <components/Mesh.hpp>
 #include <components/Transform.hpp>
+#include <ecs/EntityHandle.hpp>
 #include <ecs/ScopedSystem.hpp>
+#include <opengl/VertexArray.hpp>
 
 namespace texplr {
 
@@ -22,6 +26,9 @@ public:
 
 private:
     Scene* m_scene = nullptr;
+    std::map<EntityHandle, std::shared_ptr<VertexArray>> m_vaos;
+
+    void begin();
 };
 
 } // namespace texplr

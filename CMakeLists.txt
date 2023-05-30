@@ -13,12 +13,15 @@ add_executable(${PROJECT_NAME}
         includes/core/GLFWContext.hpp
         includes/core/GLFWContext.hpp
         includes/core/Scene.hpp
+        includes/core/Vertex.hpp
         
         includes/components/Camera.hpp
         includes/components/Transform.hpp
         includes/components/Mesh.hpp
 
         includes/systems/SceneRenderer.hpp
+
+        includes/opengl/VertexArray.hpp
 
         includes/ecs/Component.hpp
         includes/ecs/ComponentManager.hpp
@@ -46,6 +49,8 @@ add_executable(${PROJECT_NAME}
         src/ecs/System.cpp
 
         src/systems/SceneRenderer.cpp
+
+        src/opengl/VertexArray.cpp
 
         src/game/ShowcaseScene.cpp
 

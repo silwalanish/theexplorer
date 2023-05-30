@@ -30,9 +30,6 @@ void Application::run()
         deltaTime = std::chrono::duration<float, std::chrono::seconds::period>(currentTime - startTime).count();
         startTime = currentTime;
 
-        glClearColor(1.0f, 0.0f, 0.0f, 0.0f);
-        glClear(GL_COLOR_BUFFER_BIT);
-
         if (m_scene) {
             m_scene->update(deltaTime);
         }
