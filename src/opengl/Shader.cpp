@@ -1,5 +1,6 @@
 #include <opengl/Shader.hpp>
 
+#include <glm/gtc/type_ptr.hpp>
 #include <iostream>
 #include <stdexcept>
 
@@ -20,6 +21,11 @@ Shader::~Shader()
 void Shader::use()
 {
     glUseProgram(m_id);
+}
+
+void Shader::loadMVPMatrix(const glm::mat4& projectionMatrix)
+{
+    loadMat4(m_mvpMatrixLoc, projectionMatrix);
 }
 
 void Shader::addVertexShader(const std::string& shaderSource)
@@ -106,6 +112,11 @@ GLuint Shader::getUniformLocation(const std::string& uniformName)
 void Shader::loadVec3(GLuint uniformLoc, const glm::vec3& value)
 {
     glUniform3f(uniformLoc, value.x, value.y, value.z);
+}
+
+void Shader::loadMat4(GLuint uniformLoc, const glm::mat4& value)
+{
+    glUniformMatrix4fv(uniformLoc, 1, GL_FALSE, glm::value_ptr(value));
 }
 
 } // namespace texplr

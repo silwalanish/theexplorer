@@ -1,5 +1,6 @@
 #pragma once
 
+#include <glm/glm.hpp>
 #include <memory>
 
 #include <components/Mesh.hpp>
@@ -29,6 +30,9 @@ private:
     Scene* m_scene = nullptr;
     std::shared_ptr<Shader> m_shader;
     std::map<EntityHandle, std::shared_ptr<VertexArray>> m_vaos;
+
+    glm::mat4 m_projectionMatrix;
+    glm::mat4 m_viewMatrix;
 
     void begin();
 };

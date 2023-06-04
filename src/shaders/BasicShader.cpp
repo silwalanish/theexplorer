@@ -9,8 +9,10 @@ static std::string VERTEX_SHADER_SOURCE = R"(
     layout (location = 1) in vec3 NORMAL;
     layout (location = 2) in vec2 UV;
 
+    uniform mat4 MVP_MAT;
+
     void main() {
-        gl_Position = vec4(POSITION, 1.0);
+        gl_Position = MVP_MAT * vec4(POSITION, 1.0);
     }
 )";
 
@@ -46,6 +48,7 @@ void BasicShader::loadMaterial(const Material& material)
 
 void BasicShader::cacheUniformLocation()
 {
+    m_mvpMatrixLoc = getUniformLocation("MVP_MAT");
     m_materialColorLoc = getUniformLocation("MATERIAL.color");
 }
 
