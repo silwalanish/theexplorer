@@ -16,4 +16,4 @@ struct AutoRotation : public Component<AutoRotation> {
     }
 };
 
-}
+} // namespace texplr

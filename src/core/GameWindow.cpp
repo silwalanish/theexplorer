@@ -2,18 +2,68 @@
 
 #include <stdexcept>
 
+#include <core/Events.hpp>
+
 namespace texplr {
 
-GameWindow::GameWindow(const std::string& title, uint16_t width, uint16_t height)
+static void keyCallback(GLFWwindow* handle, int key, int scancode, int action, int mods)
+{
+    GameWindow* window = static_cast<GameWindow*>(glfwGetWindowUserPointer(handle));
+
+    if (action == GLFW_PRESS) {
+        window->getEventBus()->notify(new KeyDownEvent { KeyCodes(key) });
+    } else if (action == GLFW_RELEASE) {
+        window->getEventBus()->notify(new KeyUpEvent { KeyCodes(key) });
+    }
+}
+
+static void closeCallback(GLFWwindow* handle)
+{
+    GameWindow* window = static_cast<GameWindow*>(glfwGetWindowUserPointer(handle));
+    window->getEventBus()->notify(new WindowCloseEvent { window });
+}
+
+static void mouseMoveCallback(GLFWwindow* handle, double xpos, double ypos)
+{
+    GameWindow* window = static_cast<GameWindow*>(glfwGetWindowUserPointer(handle));
+    window->getEventBus()->notify(new MouseMoveEvent { glm::vec2(xpos, ypos) });
+}
+
+static void mouseButtonCallback(GLFWwindow* handle, int button, int action, int mods)
+{
+    GameWindow* window = static_cast<GameWindow*>(glfwGetWindowUserPointer(handle));
+
+    if (action == GLFW_PRESS) {
+        window->getEventBus()->notify(new MouseButtonDownEvent { MouseButtons(button) });
+    } else if (action == GLFW_RELEASE) {
+        window->getEventBus()->notify(new MouseButtonUpEvent { MouseButtons(button) });
+    }
+}
+
+static void mouseScrollCallback(GLFWwindow* handle, double xoffset, double yoffset)
+{
+    GameWindow* window = static_cast<GameWindow*>(glfwGetWindowUserPointer(handle));
+    window->getEventBus()->notify(new MouseScrollEvent { glm::vec2(xoffset, yoffset) });
+}
+
+GameWindow::GameWindow(std::shared_ptr<EventBus> eventBus, const std::string& title, uint16_t width, uint16_t height)
     : m_title(title)
     , m_width(width)
     , m_height(height)
+    , m_eventBus(eventBus)
 {
     m_handle = glfwCreateWindow(static_cast<int>(m_width), static_cast<int>(m_height), m_title.c_str(), nullptr, nullptr);
 
     if (!m_handle) {
         throw new std::runtime_error("Couldn't create a window!");
     }
+
+    glfwSetWindowUserPointer(m_handle, this);
+    glfwSetKeyCallback(m_handle, &keyCallback);
+    glfwSetWindowCloseCallback(m_handle, &closeCallback);
+    glfwSetCursorPosCallback(m_handle, &mouseMoveCallback);
+    glfwSetMouseButtonCallback(m_handle, &mouseButtonCallback);
+    glfwSetScrollCallback(m_handle, &mouseScrollCallback);
 }
 
 GameWindow::~GameWindow()
@@ -33,9 +83,23 @@ void GameWindow::destroy()
     }
 }
 
-bool GameWindow::shouldClose() const
+void GameWindow::lockMouse()
 {
-    return glfwWindowShouldClose(m_handle);
+    glfwSetInputMode(m_handle, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
+
+    if (glfwRawMouseMotionSupported()) {
+        glfwSetInputMode(m_handle, GLFW_RAW_MOUSE_MOTION, GLFW_TRUE);
+    }
+}
+
+void GameWindow::unlockMouse()
+{
+    glfwSetInputMode(m_handle, GLFW_CURSOR, GLFW_CURSOR_NORMAL);
+}
+
+std::shared_ptr<EventBus> GameWindow::getEventBus() const
+{
+    return m_eventBus;
 }
 
 } // namespace texplr

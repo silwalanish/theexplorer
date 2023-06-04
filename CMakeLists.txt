@@ -9,6 +9,7 @@ add_executable(${PROJECT_NAME}
         includes/core/Application.hpp
         includes/core/GameWindow.hpp
         includes/core/Event.hpp
+        includes/core/Events.hpp
         includes/core/EventBus.hpp
         includes/core/GLFWContext.hpp
         includes/core/GLFWContext.hpp
@@ -16,6 +17,7 @@ add_executable(${PROJECT_NAME}
         includes/core/Vertex.hpp
         includes/core/MeshData.hpp
         includes/core/Material.hpp
+        includes/core/KeyCodes.hpp
         
         includes/components/Camera.hpp
         includes/components/Transform.hpp

@@ -7,10 +7,12 @@ namespace texplr {
 
 Application::Application()
     : m_glfwContext(4, 3)
-    , m_window("The Explorer!", 800, 600)
+    , m_eventBus(std::make_shared<EventBus>())
+    , m_window(m_eventBus, "The Explorer!", 800, 600)
     , m_glewContext(m_window)
 {
-    m_eventBus = std::make_shared<EventBus>();
+    m_eventBus->subscribe(this, &Application::OnKeyDown);
+    m_eventBus->subscribe(this, &Application::OnWindowClose);
 }
 
 Application::~Application()
@@ -19,11 +21,13 @@ Application::~Application()
 
 void Application::run()
 {
+    m_running = true;
+
     std::chrono::steady_clock::time_point startTime = std::chrono::high_resolution_clock::now();
     std::chrono::steady_clock::time_point currentTime;
     float deltaTime = 0.0f;
 
-    while (!m_window.shouldClose()) {
+    while (m_running) {
         m_glfwContext.pollEvents();
 
         currentTime = std::chrono::high_resolution_clock::now();
@@ -56,6 +60,20 @@ void Application::setScene(std::shared_ptr<Scene> scene)
 {
     m_scene = scene;
     m_scene->init();
+}
+
+void Application::OnKeyDown(KeyDownEvent* event)
+{
+    if (event->key == KeyCodes::ESCAPE) {
+        m_running = false;
+    }
+}
+
+void Application::OnWindowClose(WindowCloseEvent* event)
+{
+    if (event->window == &m_window) {
+        m_running = false;
+    }
 }
 
 } // namespace texplr
