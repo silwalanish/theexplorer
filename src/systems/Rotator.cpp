@@ -12,7 +12,8 @@ void Rotator::OnUpdate(float deltaTime)
         Transform& transform = m_world->getComponent<Transform>(entity);
         const AutoRotation& rotation = m_world->getComponent<AutoRotation>(entity);
 
-        transform.rotation.z += rotation.speed * deltaTime;
+        transform.rotation.y += rotation.speed * deltaTime;
+        transform.position += transform.getFront() * 1.0f * deltaTime;
     }
 }
 
