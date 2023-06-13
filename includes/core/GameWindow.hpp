@@ -12,6 +12,7 @@ namespace texplr {
 
 class GameWindow {
 public:
+    GameWindow(std::shared_ptr<EventBus> eventBus, const std::string& title);
     GameWindow(std::shared_ptr<EventBus> eventBus, const std::string& title, uint16_t width, uint16_t height);
     ~GameWindow();
 
@@ -37,6 +38,8 @@ private:
 
     GLFWwindow* m_handle = nullptr;
     std::shared_ptr<EventBus> m_eventBus;
+
+    void init();
 };
 
 } // namespace texplr

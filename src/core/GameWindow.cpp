@@ -46,6 +46,30 @@ static void mouseScrollCallback(GLFWwindow* handle, double xoffset, double yoffs
     window->getEventBus()->notify(new MouseScrollEvent { glm::vec2(xoffset, yoffset) });
 }
 
+GameWindow::GameWindow(std::shared_ptr<EventBus> eventBus, const std::string& title)
+    : m_title(title)
+    , m_eventBus(eventBus)
+{
+    GLFWmonitor* monitor = glfwGetPrimaryMonitor();
+    const GLFWvidmode* mode = glfwGetVideoMode(monitor);
+
+    glfwWindowHint(GLFW_RED_BITS, mode->redBits);
+    glfwWindowHint(GLFW_GREEN_BITS, mode->greenBits);
+    glfwWindowHint(GLFW_BLUE_BITS, mode->blueBits);
+    glfwWindowHint(GLFW_REFRESH_RATE, mode->refreshRate);
+
+    m_width = mode->width;
+    m_height = mode->height;
+
+    m_handle = glfwCreateWindow(static_cast<int>(m_width), static_cast<int>(m_height), m_title.c_str(), monitor, nullptr);
+
+    if (!m_handle) {
+        throw new std::runtime_error("Couldn't create a window!");
+    }
+
+    init();
+}
+
 GameWindow::GameWindow(std::shared_ptr<EventBus> eventBus, const std::string& title, uint16_t width, uint16_t height)
     : m_title(title)
     , m_width(width)
@@ -58,6 +82,15 @@ GameWindow::GameWindow(std::shared_ptr<EventBus> eventBus, const std::string& ti
         throw new std::runtime_error("Couldn't create a window!");
     }
 
+    init();
+}
+
+GameWindow::~GameWindow()
+{
+}
+
+void GameWindow::init()
+{
     glfwSetWindowUserPointer(m_handle, this);
     glfwSetKeyCallback(m_handle, &keyCallback);
     glfwSetWindowCloseCallback(m_handle, &closeCallback);
@@ -66,10 +99,6 @@ GameWindow::GameWindow(std::shared_ptr<EventBus> eventBus, const std::string& ti
     glfwSetScrollCallback(m_handle, &mouseScrollCallback);
 
     glfwSetCursorPos(m_handle, 0, 0);
-}
-
-GameWindow::~GameWindow()
-{
 }
 
 void GameWindow::swapBuffers()
