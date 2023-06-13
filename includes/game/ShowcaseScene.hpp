@@ -14,6 +14,9 @@ public:
 
 private:
     std::shared_ptr<SceneRenderer> m_renderer;
+
+    void OnMouseDown(MouseButtonDownEvent* event);
+    void OnMouseUp(MouseButtonUpEvent* event);
 };
 
 } // namespace texplr

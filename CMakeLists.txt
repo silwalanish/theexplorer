@@ -24,10 +24,12 @@ add_executable(${PROJECT_NAME}
         includes/components/Transform.hpp
         includes/components/Mesh.hpp
         includes/components/AutoRotation.hpp
+        includes/components/EditorControls.hpp
 
         includes/systems/SceneRenderer.hpp
         includes/systems/Rotator.hpp
         includes/systems/TransformSystem.hpp
+        includes/systems/EditorCameraController.hpp
 
         includes/opengl/VertexArray.hpp
         includes/opengl/Shader.hpp
@@ -65,6 +67,7 @@ add_executable(${PROJECT_NAME}
         src/systems/SceneRenderer.cpp
         src/systems/Rotator.cpp
         src/systems/TransformSystem.cpp
+        src/systems/EditorCameraController.cpp
 
         src/opengl/VertexArray.cpp
         src/opengl/Shader.cpp

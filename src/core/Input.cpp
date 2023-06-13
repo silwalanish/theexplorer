@@ -17,6 +17,12 @@ Input::Input(std::shared_ptr<GameWindow> window)
 
 Input::~Input() { }
 
+void Input::resetOffset()
+{
+    m_mousePositionOffset = glm::vec2(0.0f);
+    m_scrollOffset = glm::vec2(0.0f);
+}
+
 bool Input::isKeyDown(KeyCodes key)
 {
     return m_keyStates[key];
@@ -35,6 +41,11 @@ bool Input::isMouseLocked()
 const glm::vec2& Input::getMousePosition()
 {
     return m_mousePosition;
+}
+
+const glm::vec2& Input::getMousePositionOffset()
+{
+    return m_mousePositionOffset;
 }
 
 const glm::vec2& Input::getScrollOffset()

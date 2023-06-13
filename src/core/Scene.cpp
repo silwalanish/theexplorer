@@ -34,6 +34,8 @@ void Scene::update(float deltaTime)
 {
     m_world->update(deltaTime);
     OnUpdate(deltaTime);
+
+    m_inputManager->resetOffset();
 }
 
 std::shared_ptr<Input> Scene::getInputManager() const

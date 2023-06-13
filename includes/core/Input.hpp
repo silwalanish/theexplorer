@@ -14,11 +14,14 @@ public:
     Input(std::shared_ptr<GameWindow> window);
     ~Input();
 
+    void resetOffset();
+
     bool isKeyDown(KeyCodes key);
     bool isMouseDown(MouseButtons button);
     bool isMouseLocked();
 
     const glm::vec2& getMousePosition();
+    const glm::vec2& getMousePositionOffset();
     const glm::vec2& getScrollOffset();
 
 private:
