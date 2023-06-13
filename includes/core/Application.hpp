@@ -20,6 +20,7 @@ public:
 
     std::shared_ptr<EventBus> getEventBus() const;
     std::shared_ptr<Scene> getScene() const;
+    std::shared_ptr<GameWindow> getWindow() const;
 
     void setScene(std::shared_ptr<Scene> scene);
 
@@ -28,7 +29,7 @@ private:
     std::shared_ptr<EventBus> m_eventBus;
 
     GLFWContext m_glfwContext;
-    GameWindow m_window;
+    std::shared_ptr<GameWindow> m_window;
     GLEWContext m_glewContext;
 
     std::shared_ptr<Scene> m_scene;

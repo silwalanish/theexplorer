@@ -4,6 +4,7 @@
 #include <set>
 
 #include <core/EventBus.hpp>
+#include <core/Input.hpp>
 #include <ecs/EntityHandle.hpp>
 #include <ecs/Events.hpp>
 
@@ -28,6 +29,8 @@ protected:
     std::set<EntityHandle> m_registeredEntities;
     World* m_world;
     std::shared_ptr<EventBus> m_eventBus;
+
+    std::shared_ptr<Input> getInputManger();
 };
 
 } // namespace texplr

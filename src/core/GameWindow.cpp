@@ -64,6 +64,8 @@ GameWindow::GameWindow(std::shared_ptr<EventBus> eventBus, const std::string& ti
     glfwSetCursorPosCallback(m_handle, &mouseMoveCallback);
     glfwSetMouseButtonCallback(m_handle, &mouseButtonCallback);
     glfwSetScrollCallback(m_handle, &mouseScrollCallback);
+
+    glfwSetCursorPos(m_handle, 0, 0);
 }
 
 GameWindow::~GameWindow()
@@ -95,6 +97,11 @@ void GameWindow::lockMouse()
 void GameWindow::unlockMouse()
 {
     glfwSetInputMode(m_handle, GLFW_CURSOR, GLFW_CURSOR_NORMAL);
+}
+
+bool GameWindow::isMouseLocked()
+{
+    return glfwGetInputMode(m_handle, GLFW_CURSOR) == GLFW_CURSOR_DISABLED;
 }
 
 std::shared_ptr<EventBus> GameWindow::getEventBus() const

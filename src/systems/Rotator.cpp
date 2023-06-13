@@ -13,7 +13,12 @@ void Rotator::OnUpdate(float deltaTime)
         const AutoRotation& rotation = m_world->getComponent<AutoRotation>(entity);
 
         transform.rotation.y += rotation.speed * deltaTime;
-        transform.position += transform.getFront() * 1.0f * deltaTime;
+
+        if (getInputManger()->isKeyDown(KeyCodes::W)) {
+            transform.position += transform.getFront() * 1.0f * deltaTime;
+        } else if (getInputManger()->isKeyDown(KeyCodes::S)) {
+            transform.position -= transform.getFront() * 1.0f * deltaTime;
+        }
     }
 }
 

@@ -18,6 +18,7 @@ add_executable(${PROJECT_NAME}
         includes/core/MeshData.hpp
         includes/core/Material.hpp
         includes/core/KeyCodes.hpp
+        includes/core/Input.hpp
         
         includes/components/Camera.hpp
         includes/components/Transform.hpp
@@ -51,6 +52,7 @@ add_executable(${PROJECT_NAME}
         src/core/Application.cpp
         src/core/Event.cpp
         src/core/Scene.cpp
+        src/core/Input.cpp
 
         src/components/Transform.cpp
 

@@ -1,5 +1,6 @@
 #include <ecs/System.hpp>
 
+#include <core/Scene.hpp>
 #include <ecs/World.hpp>
 
 namespace texplr {
@@ -32,6 +33,11 @@ void System::registerWorld(World* world)
     m_eventBus = world->getEventBus();
 
     init();
+}
+
+std::shared_ptr<Input> System::getInputManger()
+{
+    return m_world->getScene()->getInputManager();
 }
 
 } // namespace texplr

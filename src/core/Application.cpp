@@ -8,8 +8,8 @@ namespace texplr {
 Application::Application()
     : m_glfwContext(4, 3)
     , m_eventBus(std::make_shared<EventBus>())
-    , m_window(m_eventBus, "The Explorer!", 800, 600)
-    , m_glewContext(m_window)
+    , m_window(std::make_shared<GameWindow>(m_eventBus, "The Explorer!", 800, 600))
+    , m_glewContext(*(m_window.get()))
 {
     m_eventBus->subscribe(this, &Application::OnKeyDown);
     m_eventBus->subscribe(this, &Application::OnWindowClose);
@@ -38,11 +38,11 @@ void Application::run()
             m_scene->update(deltaTime);
         }
 
-        m_window.swapBuffers();
+        m_window->swapBuffers();
     }
 
     m_glewContext.destroy();
-    m_window.destroy();
+    m_window->destroy();
     m_glfwContext.destroy();
 }
 
@@ -56,9 +56,15 @@ std::shared_ptr<Scene> Application::getScene() const
     return m_scene;
 }
 
+std::shared_ptr<GameWindow> Application::getWindow() const
+{
+    return m_window;
+}
+
 void Application::setScene(std::shared_ptr<Scene> scene)
 {
     m_scene = scene;
+    m_scene->registerApplication(this);
     m_scene->init();
 }
 
@@ -71,7 +77,7 @@ void Application::OnKeyDown(KeyDownEvent* event)
 
 void Application::OnWindowClose(WindowCloseEvent* event)
 {
-    if (event->window == &m_window) {
+    if (event->window == m_window.get()) {
         m_running = false;
     }
 }

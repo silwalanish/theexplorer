@@ -21,6 +21,8 @@ public:
     void lockMouse();
     void unlockMouse();
 
+    bool isMouseLocked();
+
     operator GLFWwindow*() const
     {
         return m_handle;
