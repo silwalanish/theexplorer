@@ -16,9 +16,9 @@ void Transform::calculateModelMatrix()
 
 void Transform::calculateDirections()
 {
-    m_right = glm::normalize(glm::vec3(m_modelMatrix[0][0], m_modelMatrix[0][1], m_modelMatrix[0][2]));
-    m_up = glm::normalize(glm::vec3(m_modelMatrix[1][0], m_modelMatrix[1][1], m_modelMatrix[1][2]));
-    m_front = glm::normalize(glm::vec3(m_modelMatrix[2][0], m_modelMatrix[2][1], m_modelMatrix[2][2]) * -1.0f);
+    m_right = glm::normalize(glm::vec3(m_modelMatrix[0][0], m_modelMatrix[1][0], m_modelMatrix[2][0]));
+    m_up = glm::normalize(glm::vec3(m_modelMatrix[0][1], m_modelMatrix[1][1], m_modelMatrix[2][1]));
+    m_front = glm::normalize(glm::vec3(m_modelMatrix[0][2], m_modelMatrix[1][2], m_modelMatrix[2][2]) * -1.0f);
 }
 
 void Transform::recalculate()
