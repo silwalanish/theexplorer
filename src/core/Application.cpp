@@ -8,7 +8,7 @@ namespace texplr {
 Application::Application()
     : m_glfwContext(4, 3)
     , m_eventBus(std::make_shared<EventBus>())
-    , m_window(std::make_shared<GameWindow>(m_eventBus, "The Explorer!"))
+    , m_window(std::make_shared<GameWindow>(m_eventBus, "The Explorer!", 800, 600))
     , m_glewContext(*(m_window.get()))
 {
     m_eventBus->subscribe(this, &Application::OnKeyDown);

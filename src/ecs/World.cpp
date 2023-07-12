@@ -1,6 +1,8 @@
 #include <ecs/World.hpp>
 
+#include <components/NativeScript.hpp>
 #include <core/Scene.hpp>
+#include <core/Script.hpp>
 
 namespace texplr {
 
@@ -29,6 +31,18 @@ EntityHandle World::createEntity()
 void World::destroyEntity(EntityHandle handle)
 {
     m_entityManager->destroyEntity(handle);
+}
+
+void World::addScript(EntityHandle handle, Script* script)
+{
+    if (!hasComponent<NativeScript>(handle)) {
+        addComponent<NativeScript>(handle, NativeScript {});
+    }
+
+    script->init();
+    script->attach(handle, this);
+
+    getComponent<NativeScript>(handle).scripts.push_back(script);
 }
 
 void World::registerToScene(Scene* scene)

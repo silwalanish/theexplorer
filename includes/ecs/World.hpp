@@ -15,6 +15,7 @@
 namespace texplr {
 
 class Scene;
+class Script;
 
 class World {
 public:
@@ -45,6 +46,8 @@ public:
     {
         getComponentManager<ComponentType>()->add(handle, component);
     }
+
+    void addScript(EntityHandle handle, Script* script);
 
     template <typename ComponentType>
     ComponentType& getComponent(EntityHandle handle)
