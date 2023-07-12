@@ -36,13 +36,16 @@ void ShowcaseScene::OnInit()
     setActiveCamera(camera->getHandle());
 
     Entity* planet = new Entity(m_world.get());
-    planet->addComponent<Transform>(Transform { glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(0.0f), glm::vec3(2.0f) });
-    planet->addComponent<Mesh>(Mesh { MeshData { { Vertex(glm::vec3(-0.5f, -0.5f, 0.0f), glm::vec3(0.0f), glm::vec2(0.0f)),
-                                                     Vertex(glm::vec3(0.5f, -0.5f, 0.0f), glm::vec3(0.0f), glm::vec2(0.0f)),
-                                                     Vertex(glm::vec3(0.0f, 0.5f, 0.0f), glm::vec3(0.0f), glm::vec2(0.0f)) },
-                                          { 0, 1, 2 } },
+    planet->addComponent<Transform>(Transform { glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(0.0f), glm::vec3(5.0f) });
+    planet->addComponent<Mesh>(Mesh { MeshData { {
+                                                     Vertex(glm::vec3(-1.0f, -1.0f, 0.0f), glm::vec3(0.0f), glm::vec2(0.0f)),
+                                                     Vertex(glm::vec3(1.0f, -1.0f, 0.0f), glm::vec3(0.0f), glm::vec2(0.0f)),
+                                                     Vertex(glm::vec3(1.0f, 1.0f, 0.0f), glm::vec3(0.0f), glm::vec2(0.0f)),
+                                                     Vertex(glm::vec3(-1.0f, 1.0f, 0.0f), glm::vec3(0.0f), glm::vec2(0.0f)),
+                                                 },
+                                          { 0, 1, 2, 0, 2, 3 } },
         Material { glm::vec3(1.0f, 1.0f, 0.0f) } });
-    planet->addScript(new PlanetScript());
+    // planet->addScript(new PlanetScript());
 
     m_renderer->setScene(this);
 }
