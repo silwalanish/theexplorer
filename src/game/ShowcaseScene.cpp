@@ -4,10 +4,14 @@
 
 #include <components/Camera.hpp>
 #include <components/Mesh.hpp>
+#include <components/NativeScript.hpp>
 #include <components/Transform.hpp>
 #include <ecs/Entity.hpp>
 #include <systems/EditorCameraController.hpp>
+#include <systems/Scripting.hpp>
 #include <systems/TransformSystem.hpp>
+
+#include <game/PlanetScript.hpp>
 
 namespace texplr {
 
@@ -22,6 +26,7 @@ void ShowcaseScene::OnInit()
 {
     m_world->registerSystem<TransformSystem>();
     m_world->registerSystem<EditorCameraController>();
+    m_world->registerSystem<Scripting>();
     m_renderer = m_world->registerSystem<SceneRenderer>();
 
     Entity* camera = new Entity(m_world.get());
@@ -30,23 +35,14 @@ void ShowcaseScene::OnInit()
     camera->addComponent<EditorControls>(EditorControls { 30.0f, 1.0f });
     setActiveCamera(camera->getHandle());
 
-    Entity* bottomTri = new Entity(m_world.get());
-    bottomTri->addComponent<Transform>(Transform { glm::vec3(0.0f, 0.0f, -1.0f), glm::vec3(0.0f), glm::vec3(2.0f) });
-    bottomTri->addComponent<Mesh>(Mesh {
-        { Vertex { glm::vec3(-0.5f, -0.5f, 0.0f), glm::vec3(0.0f), glm::vec2(0.0f) },
-            Vertex { glm::vec3(0.5f, -0.5f, 0.0f), glm::vec3(0.0f), glm::vec2(0.0f) },
-            Vertex { glm::vec3(0.0f, 0.1f, 0.0f), glm::vec3(0.0f), glm::vec2(0.0f) } },
-        { 0, 1, 2 },
-        Material { glm::vec3(1.0f, 0.0f, 0.0f) } });
-
-    Entity* topTri = new Entity(m_world.get());
-    topTri->addComponent<Transform>(Transform { glm::vec3(0.0f, 0.0f, -2.0f), glm::vec3(0.0f), glm::vec3(2.0f) });
-    topTri->addComponent<Mesh>(Mesh {
-        { Vertex { glm::vec3(-0.5f, 0.5f, 0.0f), glm::vec3(0.0f), glm::vec2(0.0f) },
-            Vertex { glm::vec3(0.5f, 0.5f, 0.0f), glm::vec3(0.0f), glm::vec2(0.0f) },
-            Vertex { glm::vec3(0.0f, -0.1f, 0.0f), glm::vec3(0.0f), glm::vec2(0.0f) } },
-        { 0, 1, 2 },
-        Material { glm::vec3(0.0f, 0.0f, 1.0f) } });
+    Entity* planet = new Entity(m_world.get());
+    planet->addComponent<Transform>(Transform { glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(0.0f), glm::vec3(2.0f) });
+    planet->addComponent<Mesh>(Mesh { MeshData { { Vertex(glm::vec3(-0.5f, -0.5f, 0.0f), glm::vec3(0.0f), glm::vec2(0.0f)),
+                                                     Vertex(glm::vec3(0.5f, -0.5f, 0.0f), glm::vec3(0.0f), glm::vec2(0.0f)),
+                                                     Vertex(glm::vec3(0.0f, 0.5f, 0.0f), glm::vec3(0.0f), glm::vec2(0.0f)) },
+                                          { 0, 1, 2 } },
+        Material { glm::vec3(1.0f, 1.0f, 0.0f) } });
+    planet->addScript(new PlanetScript());
 
     m_renderer->setScene(this);
 }

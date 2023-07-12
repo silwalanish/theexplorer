@@ -24,10 +24,12 @@ add_executable(${PROJECT_NAME}
         includes/components/Transform.hpp
         includes/components/Mesh.hpp
         includes/components/EditorControls.hpp
+        includes/components/NativeScript.hpp
 
         includes/systems/SceneRenderer.hpp
         includes/systems/TransformSystem.hpp
         includes/systems/EditorCameraController.hpp
+        includes/systems/Scripting.hpp
 
         includes/opengl/VertexArray.hpp
         includes/opengl/Shader.hpp
@@ -44,7 +46,10 @@ add_executable(${PROJECT_NAME}
         includes/ecs/System.hpp
         includes/ecs/ScopedSystem.hpp
 
+        includes/scripting/Script.hpp
+
         includes/game/ShowcaseScene.hpp
+        includes/game/PlanetScript.hpp
 
         src/core/GameWindow.cpp
         src/core/GLFWContext.cpp
@@ -62,9 +67,12 @@ add_executable(${PROJECT_NAME}
         src/ecs/EntityManager.cpp
         src/ecs/System.cpp
 
+        src/scripting/Script.cpp
+
         src/systems/SceneRenderer.cpp
         src/systems/TransformSystem.cpp
         src/systems/EditorCameraController.cpp
+        src/systems/Scripting.cpp
 
         src/opengl/VertexArray.cpp
         src/opengl/Shader.cpp
@@ -72,6 +80,7 @@ add_executable(${PROJECT_NAME}
         src/shaders/BasicShader.cpp
 
         src/game/ShowcaseScene.cpp
+        src/game/PlanetScript.cpp
 
         src/main.cpp
         )

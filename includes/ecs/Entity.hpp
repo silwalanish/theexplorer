@@ -19,6 +19,8 @@ public:
         m_world->addComponent(m_handle, component);
     }
 
+    void addScript(Script* script);
+
     template <typename ComponentType>
     ComponentType& getComponent()
     {

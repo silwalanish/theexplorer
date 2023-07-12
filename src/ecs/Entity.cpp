@@ -26,6 +26,11 @@ void Entity::destroy()
     m_handle = 0;
 }
 
+void Entity::addScript(Script* script)
+{
+    m_world->addScript(m_handle, script);
+}
+
 World* Entity::getWorld()
 {
     return m_world;
