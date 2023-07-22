@@ -23,9 +23,24 @@ void Shader::use()
     glUseProgram(m_id);
 }
 
-void Shader::loadMVPMatrix(const glm::mat4& projectionMatrix)
+void Shader::loadProjectionMatrix(const glm::mat4& projectionMatrix)
 {
-    loadMat4(m_mvpMatrixLoc, projectionMatrix);
+    loadMat4(m_projectionMatrixLoc, projectionMatrix);
+}
+
+void Shader::loadViewMatrix(const glm::mat4& viewMatrix)
+{
+    loadMat4(m_viewMatrixLoc, viewMatrix);
+}
+
+void Shader::loadModelMatrix(const glm::mat4& modelMatrix)
+{
+    loadMat4(m_modelMatrixLoc, modelMatrix);
+}
+
+void Shader::loadNormalMatrix(const glm::mat3& normalMatrix)
+{
+    loadMat3(m_normalMatrixLoc, normalMatrix);
 }
 
 void Shader::addVertexShader(const std::string& shaderSource)
@@ -112,6 +127,11 @@ GLuint Shader::getUniformLocation(const std::string& uniformName)
 void Shader::loadVec3(GLuint uniformLoc, const glm::vec3& value)
 {
     glUniform3f(uniformLoc, value.x, value.y, value.z);
+}
+
+void Shader::loadMat3(GLuint uniformLoc, const glm::mat3& value)
+{
+    glUniformMatrix3fv(uniformLoc, 1, GL_FALSE, glm::value_ptr(value));
 }
 
 void Shader::loadMat4(GLuint uniformLoc, const glm::mat4& value)

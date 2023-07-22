@@ -52,6 +52,7 @@ void SceneRenderer::begin()
 {
     glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+    glEnable(GL_DEPTH_TEST);
 
     m_shader->use();
 }
@@ -60,10 +61,15 @@ void SceneRenderer::render()
 {
     begin();
 
+    m_shader->loadProjectionMatrix(m_projectionMatrix);
+    m_shader->loadViewMatrix(m_viewMatrix);
+
     for (EntityHandle entity : m_registeredEntities) {
         const Transform& transform = m_world->getComponent<Transform>(entity);
 
-        m_shader->loadMVPMatrix(m_projectionMatrix * m_viewMatrix * transform.getModelMatrix());
+        glm::mat4 modelMatrix = transform.getModelMatrix();
+        m_shader->loadModelMatrix(modelMatrix);
+        m_shader->loadNormalMatrix(glm::mat3(glm::transpose(glm::inverse(modelMatrix))));
 
         const Mesh& mesh = m_world->getComponent<Mesh>(entity);
         std::shared_ptr<VertexArray> vao = m_vaos[entity];
