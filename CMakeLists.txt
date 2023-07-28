@@ -26,11 +26,15 @@ add_executable(${PROJECT_NAME}
         includes/components/Mesh.hpp
         includes/components/EditorControls.hpp
         includes/components/NativeScript.hpp
+        includes/components/Terrain.hpp
 
         includes/systems/SceneRenderer.hpp
         includes/systems/TransformSystem.hpp
         includes/systems/EditorCameraController.hpp
         includes/systems/Scripting.hpp
+
+        includes/scripts/TerrainGenerator.hpp
+        includes/scripts/PlanetScript.hpp
 
         includes/opengl/VertexArray.hpp
         includes/opengl/Shader.hpp
@@ -48,7 +52,6 @@ add_executable(${PROJECT_NAME}
         includes/ecs/ScopedSystem.hpp
 
         includes/game/ShowcaseScene.hpp
-        includes/game/PlanetScript.hpp
 
         src/core/GameWindow.cpp
         src/core/GLFWContext.cpp
@@ -58,6 +61,7 @@ add_executable(${PROJECT_NAME}
         src/core/Scene.cpp
         src/core/Input.cpp
         src/core/Script.cpp
+        src/core/MeshData.cpp
 
         src/components/Transform.cpp
 
@@ -71,6 +75,9 @@ add_executable(${PROJECT_NAME}
         src/systems/TransformSystem.cpp
         src/systems/EditorCameraController.cpp
         src/systems/Scripting.cpp
+        
+        src/scripts/TerrainGenerator.cpp
+        src/scripts/PlanetScript.cpp
 
         src/opengl/VertexArray.cpp
         src/opengl/Shader.cpp
@@ -78,7 +85,6 @@ add_executable(${PROJECT_NAME}
         src/shaders/BasicShader.cpp
 
         src/game/ShowcaseScene.cpp
-        src/game/PlanetScript.cpp
 
         src/main.cpp
         )

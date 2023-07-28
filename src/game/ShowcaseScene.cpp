@@ -11,7 +11,8 @@
 #include <systems/Scripting.hpp>
 #include <systems/TransformSystem.hpp>
 
-#include <game/PlanetScript.hpp>
+#include <scripts/PlanetScript.hpp>
+#include <scripts/TerrainGenerator.hpp>
 
 namespace texplr {
 
@@ -29,23 +30,27 @@ void ShowcaseScene::OnInit()
     m_world->registerSystem<Scripting>();
     m_renderer = m_world->registerSystem<SceneRenderer>();
 
-    Entity* camera = new Entity(m_world.get());
-    camera->addComponent<Camera>(Camera { 0.01f, 100.0f, 60.0f, 1.33f, true });
-    camera->addComponent<Transform>(Transform { glm::vec3(0.0f, 0.0f, -5.0f), glm::vec3(0.0f, 180.0f, 0.0f), glm::vec3(1.0f) });
-    camera->addComponent<EditorControls>(EditorControls { 30.0f, 1.0f });
-    setActiveCamera(camera->getHandle());
+    Entity camera(m_world.get());
+    camera.addComponent<Camera>(Camera { 0.01f, 100.0f, 60.0f, 1.33f, true });
+    camera.addComponent<Transform>(Transform { glm::vec3(0.0f, 3.0f, -5.0f), glm::vec3(0.0f, 180.0f, 0.0f), glm::vec3(1.0f) });
+    camera.addComponent<EditorControls>(EditorControls { 30.0f, 1.0f });
+    setActiveCamera(camera.getHandle());
 
-    Entity* planet = new Entity(m_world.get());
-    planet->addComponent<Transform>(Transform { glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(0.0f), glm::vec3(2.0f) });
-    planet->addComponent<Mesh>(Mesh { MeshData { { Vertex(glm::vec3(-0.5f, -0.5f, 0.0f), glm::vec3(0.0f, 0.0f, 1.0f), glm::vec2(0.0f)),
-                                                     Vertex(glm::vec3(0.5f, -0.5f, 0.0f), glm::vec3(0.0f, 0.0f, 1.0f), glm::vec2(0.0f)),
-                                                     Vertex(glm::vec3(0.0f, 0.5f, 0.0f), glm::vec3(0.0f, 0.0f, 1.0f), glm::vec2(0.0f)),
-                                                     Vertex(glm::vec3(-0.5f, -0.5f, 1.0f), glm::vec3(0.0f, 0.0f, -1.0f), glm::vec2(0.0f)),
-                                                     Vertex(glm::vec3(0.5f, -0.5f, 1.0f), glm::vec3(0.0f, 0.0f, -1.0f), glm::vec2(0.0f)),
-                                                     Vertex(glm::vec3(0.0f, 0.5f, 1.0f), glm::vec3(0.0f, 0.0f, -1.0f), glm::vec2(0.0f)) },
-                                          { 0, 1, 2, 3, 4, 5 } },
+    Entity planet(m_world.get());
+    planet.addComponent<Transform>(Transform { glm::vec3(0.0f, 2.0f, 0.0f), glm::vec3(0.0f), glm::vec3(2.0f) });
+    planet.addComponent<Mesh>(Mesh { MeshData { { Vertex(glm::vec3(-0.5f, -0.5f, 0.0f), glm::vec3(0.0f, 0.0f, 1.0f), glm::vec2(0.0f)),
+                                                    Vertex(glm::vec3(0.5f, -0.5f, 0.0f), glm::vec3(0.0f, 0.0f, 1.0f), glm::vec2(0.0f)),
+                                                    Vertex(glm::vec3(0.0f, 0.5f, 0.0f), glm::vec3(0.0f, 0.0f, 1.0f), glm::vec2(0.0f)),
+                                                    Vertex(glm::vec3(-0.5f, -0.5f, 1.0f), glm::vec3(0.0f, 0.0f, -1.0f), glm::vec2(0.0f)),
+                                                    Vertex(glm::vec3(0.5f, -0.5f, 1.0f), glm::vec3(0.0f, 0.0f, -1.0f), glm::vec2(0.0f)),
+                                                    Vertex(glm::vec3(0.0f, 0.5f, 1.0f), glm::vec3(0.0f, 0.0f, -1.0f), glm::vec2(0.0f)) },
+                                         { 0, 1, 2, 3, 4, 5 } },
         Material { glm::vec3(1.0f, 1.0f, 0.0f) } });
-    planet->addScript(new PlanetScript());
+    planet.addScript(new PlanetScript());
+
+    Entity terrain(m_world.get());
+    terrain.addComponent<Transform>(Transform { glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(0.0f), glm::vec3(1.0f) });
+    terrain.addScript(new TerrainGenerator(50, 25.0f));
 
     m_renderer->setScene(this);
 }

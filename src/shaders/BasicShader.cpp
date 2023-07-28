@@ -43,7 +43,7 @@ static std::string FRAGMENT_SHADER_SOURCE = R"(
 
     uniform Material MATERIAL;
 
-    vec3 LIGHT_POS = vec3(0.0, 0.0, 5.0);
+    vec3 LIGHT_POS = vec3(0.0, 5.0, 5.0);
 
     void main() {
         float diffuse = max(dot(-normalize(FRAG_POSITION - LIGHT_POS), normalize(FRAG_NORMAL)), 0.01);

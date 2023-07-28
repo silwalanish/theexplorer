@@ -1,4 +1,4 @@
-#include <game/PlanetScript.hpp>
+#include <scripts/PlanetScript.hpp>
 
 #include <components/Transform.hpp>
 

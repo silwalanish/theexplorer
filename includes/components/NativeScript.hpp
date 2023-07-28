@@ -7,7 +7,7 @@
 
 namespace texplr {
 
-struct NativeScript : Component<NativeScript> {
+struct NativeScript : public Component<NativeScript> {
     std::vector<Script*> scripts;
 
     NativeScript() = default;
