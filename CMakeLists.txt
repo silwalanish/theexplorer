@@ -20,6 +20,7 @@ add_executable(${PROJECT_NAME}
         includes/core/KeyCodes.hpp
         includes/core/Input.hpp
         includes/core/Script.hpp
+        includes/core/Light.hpp
         
         includes/components/Camera.hpp
         includes/components/Transform.hpp
@@ -27,6 +28,7 @@ add_executable(${PROJECT_NAME}
         includes/components/EditorControls.hpp
         includes/components/NativeScript.hpp
         includes/components/Terrain.hpp
+        includes/components/DirectionalLight.hpp
 
         includes/systems/SceneRenderer.hpp
         includes/systems/TransformSystem.hpp

@@ -5,6 +5,7 @@
 #include <iostream>
 
 #include <components/Camera.hpp>
+#include <components/DirectionalLight.hpp>
 #include <core/Scene.hpp>
 #include <shaders/BasicShader.hpp>
 
@@ -59,10 +60,13 @@ void SceneRenderer::begin()
 
 void SceneRenderer::render()
 {
+    const DirectionalLight& sun = m_scene->getWorld()->getComponent<DirectionalLight>(m_scene->getSun());
+
     begin();
 
     m_shader->loadProjectionMatrix(m_projectionMatrix);
     m_shader->loadViewMatrix(m_viewMatrix);
+    m_shader->loadSun(sun.light);
 
     for (EntityHandle entity : m_registeredEntities) {
         const Transform& transform = m_world->getComponent<Transform>(entity);

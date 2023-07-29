@@ -3,6 +3,7 @@
 #include <iostream>
 
 #include <components/Camera.hpp>
+#include <components/DirectionalLight.hpp>
 #include <components/Mesh.hpp>
 #include <components/NativeScript.hpp>
 #include <components/Transform.hpp>
@@ -51,6 +52,10 @@ void ShowcaseScene::OnInit()
     Entity terrain(m_world.get());
     terrain.addComponent<Transform>(Transform { glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(0.0f), glm::vec3(1.0f) });
     terrain.addScript(new TerrainGenerator(50, 25.0f));
+
+    Entity sun(m_world.get());
+    sun.addComponent<DirectionalLight>(DirectionalLight { Light { 0.05f, glm::vec3(0.8f, 0.8f, 0.9f), glm::vec3(0.0f, -0.5f, -0.5f) } });
+    setSun(sun.getHandle());
 
     m_renderer->setScene(this);
 }

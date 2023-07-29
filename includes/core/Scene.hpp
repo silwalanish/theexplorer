@@ -29,13 +29,16 @@ public:
     std::shared_ptr<World> getWorld() const;
     std::shared_ptr<EventBus> getEventBus() const;
     std::shared_ptr<GameWindow> getWindow() const;
+    EntityHandle getSun() const;
     EntityHandle getActiveCamera() const;
 
+    void setSun(EntityHandle sun);
     void setActiveCamera(EntityHandle camera);
 
 protected:
     bool m_isInitialized = false;
     EntityHandle m_activeCamera = 0;
+    EntityHandle m_sun = 0;
     Application* m_application;
 
     std::shared_ptr<Input> m_inputManager;

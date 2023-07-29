@@ -35,6 +35,12 @@ static std::string FRAGMENT_SHADER_SOURCE = R"(
         vec3 color;
     };
 
+    struct Light {
+        float ambient;
+        vec3 color;
+        vec3 direction;
+    };
+
     layout (location = 0) in vec3 FRAG_POSITION;
     layout (location = 1) in vec3 FRAG_NORMAL;
     layout (location = 2) in vec2 FRAG_UV;
@@ -42,13 +48,12 @@ static std::string FRAGMENT_SHADER_SOURCE = R"(
     layout (location = 0) out vec4 FRAG_COLOR;
 
     uniform Material MATERIAL;
-
-    vec3 LIGHT_POS = vec3(0.0, 5.0, 5.0);
+    uniform Light SUN;
 
     void main() {
-        float diffuse = max(dot(-normalize(FRAG_POSITION - LIGHT_POS), normalize(FRAG_NORMAL)), 0.01);
+        float diffuse = max(dot(-normalize(SUN.direction), normalize(FRAG_NORMAL)), SUN.ambient);
 
-        FRAG_COLOR = vec4(MATERIAL.color * diffuse, 1.0);
+        FRAG_COLOR = vec4(MATERIAL.color * SUN.color * diffuse, 1.0);
     }
 )";
 
@@ -59,6 +64,13 @@ BasicShader::BasicShader()
     link();
 
     cacheUniformLocation();
+}
+
+void BasicShader::loadSun(const Light& light)
+{
+    loadFloat(m_sunAmbientLoc, light.ambient);
+    loadVec3(m_sunColorLoc, light.color);
+    loadVec3(m_sunDirectionLoc, light.direction);
 }
 
 void BasicShader::loadMaterial(const Material& material)
@@ -72,6 +84,9 @@ void BasicShader::cacheUniformLocation()
     m_viewMatrixLoc = getUniformLocation("VIEW_MAT");
     m_modelMatrixLoc = getUniformLocation("MODEL_MAT");
     m_normalMatrixLoc = getUniformLocation("NORMAL_MAT");
+    m_sunColorLoc = getUniformLocation("SUN.color");
+    m_sunAmbientLoc = getUniformLocation("SUN.ambient");
+    m_sunDirectionLoc = getUniformLocation("SUN.direction");
     m_materialColorLoc = getUniformLocation("MATERIAL.color");
 }
 

@@ -124,6 +124,11 @@ GLuint Shader::getUniformLocation(const std::string& uniformName)
     return glGetUniformLocation(m_id, uniformName.c_str());
 }
 
+void Shader::loadFloat(GLuint uniformLoc, const float& value)
+{
+    glUniform1f(uniformLoc, value);
+}
+
 void Shader::loadVec3(GLuint uniformLoc, const glm::vec3& value)
 {
     glUniform3f(uniformLoc, value.x, value.y, value.z);

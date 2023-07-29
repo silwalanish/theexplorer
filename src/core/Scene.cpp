@@ -1,6 +1,9 @@
 #include <core/Application.hpp>
 #include <core/Scene.hpp>
 
+#include <components/Camera.hpp>
+#include <components/DirectionalLight.hpp>
+
 namespace texplr {
 
 Scene::Scene(std::shared_ptr<EventBus> eventBus)
@@ -58,13 +61,27 @@ std::shared_ptr<GameWindow> Scene::getWindow() const
     return m_application->getWindow();
 }
 
+EntityHandle Scene::getSun() const
+{
+    return m_sun;
+}
+
 EntityHandle Scene::getActiveCamera() const
 {
     return m_activeCamera;
 }
 
+void Scene::setSun(EntityHandle sun)
+{
+    assert(m_world->hasComponent<DirectionalLight>(sun) && "Entity needs to have 'DirectionalLight' component.");
+
+    m_sun = sun;
+}
+
 void Scene::setActiveCamera(EntityHandle camera)
 {
+    assert(m_world->hasComponent<Camera>(camera) && "Entity needs to have 'Camera' component.");
+
     m_activeCamera = camera;
 }
 

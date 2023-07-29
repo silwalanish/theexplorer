@@ -4,6 +4,7 @@
 #include <glm/glm.hpp>
 #include <string>
 
+#include <core/Light.hpp>
 #include <core/Material.hpp>
 
 namespace texplr {
@@ -15,6 +16,7 @@ public:
 
     void use();
 
+    virtual void loadSun(const Light& light) = 0;
     virtual void loadMaterial(const Material& material) = 0;
     virtual void loadProjectionMatrix(const glm::mat4& projectionMatrix);
     virtual void loadViewMatrix(const glm::mat4& viewMatrix);
@@ -35,6 +37,7 @@ protected:
 
     GLuint getUniformLocation(const std::string& uniformName);
 
+    void loadFloat(GLuint uniformLoc, const float& value);
     void loadVec3(GLuint uniformLoc, const glm::vec3& value);
     void loadMat3(GLuint uniformLoc, const glm::mat3& value);
     void loadMat4(GLuint uniformLoc, const glm::mat4& value);
