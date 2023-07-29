@@ -12,7 +12,6 @@
 #include <systems/Scripting.hpp>
 #include <systems/TransformSystem.hpp>
 
-#include <scripts/PlanetScript.hpp>
 #include <scripts/TerrainGenerator.hpp>
 
 namespace texplr {
@@ -32,29 +31,26 @@ void ShowcaseScene::OnInit()
     m_renderer = m_world->registerSystem<SceneRenderer>();
 
     Entity camera(m_world.get());
-    camera.addComponent<Camera>(Camera { 0.01f, 100.0f, 60.0f, 1.33f, true });
-    camera.addComponent<Transform>(Transform { glm::vec3(0.0f, 3.0f, -5.0f), glm::vec3(0.0f, 180.0f, 0.0f), glm::vec3(1.0f) });
+    camera.addComponent<Camera>(Camera { 0.01f, 1000.0f, 60.0f, 1.33f, true });
+    camera.addComponent<Transform>(Transform { glm::vec3(0.0f, 1.0f, 0.0f), glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(1.0f) });
     camera.addComponent<EditorControls>(EditorControls { 30.0f, 1.0f });
     setActiveCamera(camera.getHandle());
 
-    Entity planet(m_world.get());
-    planet.addComponent<Transform>(Transform { glm::vec3(0.0f, 2.0f, 0.0f), glm::vec3(0.0f), glm::vec3(2.0f) });
-    planet.addComponent<Mesh>(Mesh { MeshData { { Vertex(glm::vec3(-0.5f, -0.5f, 0.0f), glm::vec3(0.0f, 0.0f, 1.0f), glm::vec2(0.0f)),
-                                                    Vertex(glm::vec3(0.5f, -0.5f, 0.0f), glm::vec3(0.0f, 0.0f, 1.0f), glm::vec2(0.0f)),
-                                                    Vertex(glm::vec3(0.0f, 0.5f, 0.0f), glm::vec3(0.0f, 0.0f, 1.0f), glm::vec2(0.0f)),
-                                                    Vertex(glm::vec3(-0.5f, -0.5f, 1.0f), glm::vec3(0.0f, 0.0f, -1.0f), glm::vec2(0.0f)),
-                                                    Vertex(glm::vec3(0.5f, -0.5f, 1.0f), glm::vec3(0.0f, 0.0f, -1.0f), glm::vec2(0.0f)),
-                                                    Vertex(glm::vec3(0.0f, 0.5f, 1.0f), glm::vec3(0.0f, 0.0f, -1.0f), glm::vec2(0.0f)) },
-                                         { 0, 1, 2, 3, 4, 5 } },
-        Material { glm::vec3(1.0f, 1.0f, 0.0f) } });
-    planet.addScript(new PlanetScript());
+    HeightMap heightMap(0.01f, 15.0f, 4.0f, 0.1f);
+    float chunkSize = 10.0f;
+    int chunkPerRow = 5;
+    glm::vec3 startChunk(-(chunkPerRow - 1) * (chunkSize / 2.0f), 0.0f, -(chunkPerRow - 1) * (chunkSize / 2.0f));
 
-    Entity terrain(m_world.get());
-    terrain.addComponent<Transform>(Transform { glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(0.0f), glm::vec3(1.0f) });
-    terrain.addScript(new TerrainGenerator(50, 25.0f));
+    for (int i = 0; i < chunkPerRow; i++) {
+        for (int j = 0; j < chunkPerRow; j++) {
+            Entity terrainChunk(m_world.get());
+            terrainChunk.addComponent<Transform>(Transform { startChunk + glm::vec3(i * chunkSize, 0.0f, j * chunkSize), glm::vec3(0.0f), glm::vec3(1.0f) });
+            terrainChunk.addScript(new TerrainGenerator(25, chunkSize, heightMap));
+        }
+    }
 
     Entity sun(m_world.get());
-    sun.addComponent<DirectionalLight>(DirectionalLight { Light { 0.05f, glm::vec3(0.8f, 0.8f, 0.9f), glm::vec3(0.0f, -0.5f, -0.5f) } });
+    sun.addComponent<DirectionalLight>(DirectionalLight { Light { 0.1f, glm::vec3(0.8f, 0.8f, 0.9f), glm::vec3(0.0f, -0.5f, 0.5f) } });
     setSun(sun.getHandle());
 
     m_renderer->setScene(this);

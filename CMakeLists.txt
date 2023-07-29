@@ -36,7 +36,6 @@ add_executable(${PROJECT_NAME}
         includes/systems/Scripting.hpp
 
         includes/scripts/TerrainGenerator.hpp
-        includes/scripts/PlanetScript.hpp
 
         includes/opengl/VertexArray.hpp
         includes/opengl/Shader.hpp
@@ -52,6 +51,8 @@ add_executable(${PROJECT_NAME}
         includes/ecs/World.hpp
         includes/ecs/System.hpp
         includes/ecs/ScopedSystem.hpp
+
+        includes/terrain/HeightMap.hpp
 
         includes/game/ShowcaseScene.hpp
 
@@ -79,12 +80,13 @@ add_executable(${PROJECT_NAME}
         src/systems/Scripting.cpp
         
         src/scripts/TerrainGenerator.cpp
-        src/scripts/PlanetScript.cpp
 
         src/opengl/VertexArray.cpp
         src/opengl/Shader.cpp
 
         src/shaders/BasicShader.cpp
+
+        src/terrain/HeightMap.cpp
 
         src/game/ShowcaseScene.cpp
 

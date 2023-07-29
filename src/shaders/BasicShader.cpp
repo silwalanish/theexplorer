@@ -41,7 +41,7 @@ static std::string FRAGMENT_SHADER_SOURCE = R"(
         vec3 direction;
     };
 
-    layout (location = 0) in vec3 FRAG_POSITION;
+    layout (location = 0) in vec3 FRAG_POS;
     layout (location = 1) in vec3 FRAG_NORMAL;
     layout (location = 2) in vec2 FRAG_UV;
 

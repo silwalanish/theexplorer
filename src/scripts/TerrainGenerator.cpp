@@ -2,32 +2,22 @@
 
 #include <components/Mesh.hpp>
 #include <components/Terrain.hpp>
+#include <components/Transform.hpp>
 
 #include <glm/gtc/noise.hpp>
 
 namespace texplr {
 
-static float heightMap(const glm::vec2& position, uint32_t octaves, float frequency, float amplitude, float lacunarity, float gain)
-{
-    float noiseValue = 0.0f;
-
-    for (uint32_t i = 0; i < octaves; i++) {
-        noiseValue += amplitude * glm::perlin(position * frequency);
-        frequency *= lacunarity;
-        amplitude *= gain;
-    }
-
-    return noiseValue;
-}
-
-TerrainGenerator::TerrainGenerator(uint32_t segments, float size)
+TerrainGenerator::TerrainGenerator(uint32_t segments, float size, const HeightMap& heightMap)
     : m_segments(segments)
     , m_size(size)
+    , m_heightMap(heightMap)
 {
 }
 
 void TerrainGenerator::OnInit()
 {
+    m_start = -m_size / 2.0f;
 }
 
 void TerrainGenerator::OnAttach()
@@ -41,41 +31,55 @@ void TerrainGenerator::OnAttach()
     }
 
     Mesh& terrain = m_world->getComponent<Mesh>(m_entity);
+    const Transform& transform = m_world->getComponent<Transform>(m_entity);
+
+    m_offset = glm::vec2(transform.position.x, transform.position.z);
+    uint32_t vertexPerRow = m_segments + 1;
 
     terrain.meshData = MeshData {};
 
-    float start = -m_size / 2.0f;
+    for (uint32_t i = 0; i < vertexPerRow; i++) {
+        for (uint32_t j = 0; j < vertexPerRow; j++) {
+            glm::vec3 position = positionAt(i, j);
+            glm::vec3 bPosition = positionAt(i + 1, j);
+            glm::vec3 cPosition = positionAt(i + 1, j + 1);
 
-    for (uint32_t i = 0; i < m_segments; i++) {
-        for (uint32_t j = 0; j < m_segments; j++) {
-            float xProgress = (j / (float)m_segments);
-            float zProgress = (i / (float)m_segments);
+            glm::vec3 vBMinusA = bPosition - position;
+            glm::vec3 vCMinusA = cPosition - position;
 
-            float x = start + xProgress * m_size;
-            float z = start + zProgress * m_size;
-            float y = heightMap(glm::vec2(xProgress, zProgress), 4, 0.2f, 10.0f, 2.488f, 0.5f);
+            glm::vec3 normal = glm::normalize(glm::cross(vBMinusA, vCMinusA));
 
-            terrain.meshData.vertices.push_back(Vertex { glm::vec3(x, y, z), glm::vec3(0.0f, 1.0f, 0.0f), glm::vec2(xProgress, zProgress) });
+            terrain.meshData.vertices.push_back(Vertex { position, normal, glm::vec2(j, i) / (float)(m_segments) });
 
-            if (i != (m_segments - 1) && j != (m_segments - 1)) {
-                terrain.meshData.indices.push_back(i * m_segments + j);
-                terrain.meshData.indices.push_back((i + 1) * m_segments + j);
-                terrain.meshData.indices.push_back((i + 1) * m_segments + j + 1);
+            if (i != m_segments && j != m_segments) {
+                terrain.meshData.indices.push_back(i * vertexPerRow + j);
+                terrain.meshData.indices.push_back((i + 1) * vertexPerRow + j);
+                terrain.meshData.indices.push_back((i + 1) * vertexPerRow + j + 1);
 
-                terrain.meshData.indices.push_back(i * m_segments + j);
-                terrain.meshData.indices.push_back((i + 1) * m_segments + j + 1);
-                terrain.meshData.indices.push_back(i * m_segments + j + 1);
+                terrain.meshData.indices.push_back(i * vertexPerRow + j);
+                terrain.meshData.indices.push_back((i + 1) * vertexPerRow + j + 1);
+                terrain.meshData.indices.push_back(i * vertexPerRow + j + 1);
             }
         }
     }
 
-    terrain.meshData.recalculateNormals();
-
-    terrain.material = Material { glm::vec3(0.1f, 0.7f, 0.2f) };
+    terrain.material = Material { glm::vec3(0.7f, 0.3f, 0.2f) };
 }
 
 void TerrainGenerator::OnUpdate(float deltaTime)
 {
+}
+
+glm::vec3 TerrainGenerator::positionAt(uint32_t row, uint32_t column)
+{
+    float xProgress = (column / (float)m_segments);
+    float zProgress = (row / (float)m_segments);
+
+    float x = m_start + xProgress * m_size;
+    float z = m_start + zProgress * m_size;
+    float y = m_heightMap.heightAt(m_offset + glm::vec2(x, z));
+
+    return glm::vec3(x, y, z);
 }
 
 } // namespace texplr
