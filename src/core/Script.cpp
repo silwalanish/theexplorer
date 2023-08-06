@@ -1,3 +1,4 @@
+#include <core/Scene.hpp>
 #include <core/Script.hpp>
 
 namespace texplr {
@@ -21,6 +22,11 @@ void Script::attach(EntityHandle entity, World* world)
 void Script::update(float deltaTime)
 {
     OnUpdate(deltaTime);
+}
+
+std::shared_ptr<Input> Script::getInputManger()
+{
+    return m_world->getScene()->getInputManager();
 }
 
 } // namespace texplr

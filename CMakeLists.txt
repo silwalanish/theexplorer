@@ -26,16 +26,15 @@ add_executable(${PROJECT_NAME}
         includes/components/Camera.hpp
         includes/components/Transform.hpp
         includes/components/Mesh.hpp
-        includes/components/EditorControls.hpp
         includes/components/NativeScript.hpp
         includes/components/Terrain.hpp
         includes/components/DirectionalLight.hpp
 
         includes/systems/SceneRenderer.hpp
         includes/systems/TransformSystem.hpp
-        includes/systems/EditorCameraController.hpp
         includes/systems/Scripting.hpp
-
+        
+        includes/scripts/EditorCameraController.hpp
         includes/scripts/TerrainGenerator.hpp
 
         includes/opengl/VertexArray.hpp
@@ -78,9 +77,9 @@ add_executable(${PROJECT_NAME}
 
         src/systems/SceneRenderer.cpp
         src/systems/TransformSystem.cpp
-        src/systems/EditorCameraController.cpp
         src/systems/Scripting.cpp
         
+        src/scripts/EditorCameraController.cpp
         src/scripts/TerrainGenerator.cpp
 
         src/opengl/VertexArray.cpp

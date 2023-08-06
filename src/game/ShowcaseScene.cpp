@@ -12,8 +12,7 @@
 #include <components/Transform.hpp>
 #include <core/Application.hpp>
 #include <ecs/Entity.hpp>
-#include <systems/EditorCameraController.hpp>
-
+#include <scripts/EditorCameraController.hpp>
 #include <scripts/TerrainGenerator.hpp>
 
 namespace texplr {
@@ -27,13 +26,12 @@ ShowcaseScene::ShowcaseScene(std::shared_ptr<EventBus> eventBus)
 
 void ShowcaseScene::OnInit()
 {
-    m_world->registerSystem<EditorCameraController>();
     m_renderer = m_world->registerSystem<SceneRenderer>();
 
     Entity camera(m_world.get());
     camera.addComponent<Camera>(Camera { 0.01f, 1000.0f, 60.0f, 1.33f, true });
     camera.addComponent<Transform>(Transform { glm::vec3(0.0f, 10.0f, 0.0f), glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(1.0f) });
-    camera.addComponent<EditorControls>(EditorControls { 30.0f, 1.0f });
+    camera.addScript(new EditorCameraController(30.0f, 1.0f));
     setActiveCamera(camera.getHandle());
 
     HeightMap heightMap(0.01f, 15.0f, 4.0f, 0.1f);

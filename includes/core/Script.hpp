@@ -21,6 +21,8 @@ public:
 protected:
     EntityHandle m_entity;
     World* m_world = nullptr;
+
+    std::shared_ptr<Input> getInputManger();
 };
 
 } // namespace texplr
