@@ -2,10 +2,13 @@
 
 #include <map>
 #include <memory>
+#include <type_traits>
 #include <utility>
 #include <vector>
 
+#include <components/Transform.hpp>
 #include <core/EventBus.hpp>
+#include <core/SceneGraph.hpp>
 #include <ecs/Component.hpp>
 #include <ecs/ComponentManager.hpp>
 #include <ecs/EntityHandle.hpp>
@@ -58,6 +61,8 @@ public:
     template <typename ComponentType>
     void removeComponent(EntityHandle handle)
     {
+        static_assert(!std::is_same<ComponentType, Transform>() && "Can't remove Transform component.");
+
         getComponentManager<ComponentType>()->remove(handle);
     }
 
@@ -79,16 +84,26 @@ public:
         return hasComponent<ComponentType1>(handle) && hasAllComponent<ComponentType2, OtherComponentTypes...>(handle);
     }
 
+    void addChild(const EntityHandle& parent, const EntityHandle& child);
+    void removeChild(const EntityHandle& parent, const EntityHandle& child);
+
+    const std::set<EntityHandle>& getChildren(const EntityHandle& parent) const;
+    EntityHandle getParent(const EntityHandle& child) const;
+
     void registerToScene(Scene* scene);
 
     Scene* getScene();
 
     const Scene* getScene() const;
     std::shared_ptr<EventBus> getEventBus() const;
+    std::shared_ptr<SceneGraph> getSceneGraph() const;
 
 private:
+    EntityHandle m_root;
+
     std::map<uint32_t, std::unique_ptr<BaseComponentManager>> m_componentManagers;
     std::unique_ptr<EntityManager> m_entityManager;
+    std::shared_ptr<SceneGraph> m_sceneGraph;
     std::vector<std::shared_ptr<System>> m_systems;
     std::shared_ptr<EventBus> m_eventBus;
     Scene* m_scene;

@@ -39,6 +39,12 @@ public:
         return m_world->hasComponent<ComponentType>(m_handle);
     }
 
+    void addChild(const EntityHandle& child);
+    void removeChild(const EntityHandle& child);
+
+    const std::set<EntityHandle>& getChildren() const;
+    EntityHandle getParent() const;
+
     void destroy();
 
     World* getWorld();

@@ -3,6 +3,8 @@
 #include <components/NativeScript.hpp>
 #include <core/Scene.hpp>
 #include <core/Script.hpp>
+#include <systems/Scripting.hpp>
+#include <systems/TransformSystem.hpp>
 
 namespace texplr {
 
@@ -10,6 +12,12 @@ World::World(std::shared_ptr<EventBus> eventBus)
     : m_eventBus(eventBus)
 {
     m_entityManager = std::make_unique<EntityManager>(m_eventBus);
+
+    registerSystem<TransformSystem>();
+    registerSystem<Scripting>();
+
+    m_sceneGraph = std::make_shared<SceneGraph>(createEntity());
+    addComponent<Transform>(m_sceneGraph->getRoot(), Transform {});
 }
 
 World::~World()
@@ -25,11 +33,19 @@ void World::update(float deltaTime)
 
 EntityHandle World::createEntity()
 {
-    return m_entityManager->createEntity();
+    EntityHandle entity = m_entityManager->createEntity();
+
+    if (m_sceneGraph) {
+        addComponent<Transform>(entity, Transform {});
+        m_sceneGraph->addChild(m_sceneGraph->getRoot(), entity);
+    }
+
+    return entity;
 }
 
 void World::destroyEntity(EntityHandle handle)
 {
+    m_sceneGraph->removeChild(m_sceneGraph->getParent(handle), handle);
     m_entityManager->destroyEntity(handle);
 }
 
@@ -43,6 +59,26 @@ void World::addScript(EntityHandle handle, Script* script)
     script->attach(handle, this);
 
     getComponent<NativeScript>(handle).scripts.push_back(script);
+}
+
+void World::addChild(const EntityHandle& parent, const EntityHandle& child)
+{
+    m_sceneGraph->addChild(parent, child);
+}
+
+void World::removeChild(const EntityHandle& parent, const EntityHandle& child)
+{
+    m_sceneGraph->removeChild(parent, child);
+}
+
+const std::set<EntityHandle>& World::getChildren(const EntityHandle& parent) const
+{
+    return m_sceneGraph->getChildren(parent);
+}
+
+EntityHandle World::getParent(const EntityHandle& child) const
+{
+    return m_sceneGraph->getParent(child);
 }
 
 void World::registerToScene(Scene* scene)
@@ -63,6 +99,11 @@ const Scene* World::getScene() const
 std::shared_ptr<EventBus> World::getEventBus() const
 {
     return m_eventBus;
+}
+
+std::shared_ptr<SceneGraph> World::getSceneGraph() const
+{
+    return m_sceneGraph;
 }
 
 } // namespace texplr

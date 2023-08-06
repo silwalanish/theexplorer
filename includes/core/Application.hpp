@@ -17,6 +17,7 @@ public:
     ~Application();
 
     void run();
+    void stop();
 
     std::shared_ptr<EventBus> getEventBus() const;
     std::shared_ptr<Scene> getScene() const;

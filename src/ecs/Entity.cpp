@@ -20,6 +20,26 @@ Entity::Entity(const Entity& entity)
 {
 }
 
+void Entity::addChild(const EntityHandle& child)
+{
+    m_world->addChild(m_handle, child);
+}
+
+void Entity::removeChild(const EntityHandle& child)
+{
+    m_world->removeChild(m_handle, child);
+}
+
+const std::set<EntityHandle>& Entity::getChildren() const
+{
+    return m_world->getChildren(m_handle);
+}
+
+EntityHandle Entity::getParent() const
+{
+    return m_world->getParent(m_handle);
+}
+
 void Entity::destroy()
 {
     m_world->destroyEntity(m_handle);

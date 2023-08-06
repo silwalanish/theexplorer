@@ -38,6 +38,10 @@ public:
 
     void add(EntityHandle entity, const T& component)
     {
+        if (has(entity)) {
+            remove(entity);
+        }
+
         m_components[entity] = component;
         m_eventBus->notify(new ComponentAddedEvent<T>(entity, component));
     }

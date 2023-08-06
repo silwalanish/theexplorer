@@ -14,6 +14,7 @@ add_executable(${PROJECT_NAME}
         includes/core/GLFWContext.hpp
         includes/core/GLFWContext.hpp
         includes/core/Scene.hpp
+        includes/core/SceneGraph.hpp
         includes/core/Vertex.hpp
         includes/core/MeshData.hpp
         includes/core/Material.hpp
@@ -62,6 +63,7 @@ add_executable(${PROJECT_NAME}
         src/core/Application.cpp
         src/core/Event.cpp
         src/core/Scene.cpp
+        src/core/SceneGraph.cpp
         src/core/Input.cpp
         src/core/Script.cpp
         src/core/MeshData.cpp

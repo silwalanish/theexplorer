@@ -46,6 +46,11 @@ void Application::run()
     m_glfwContext.destroy();
 }
 
+void Application::stop()
+{
+    m_running = false;
+}
+
 std::shared_ptr<EventBus> Application::getEventBus() const
 {
     return m_eventBus;
