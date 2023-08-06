@@ -9,9 +9,14 @@
 
 namespace texplr {
 
+enum MeshPrimitive {
+    LINES = 0,
+    TRIANGLES = 1
+};
+
 class VertexArray {
 public:
-    VertexArray();
+    VertexArray(MeshPrimitive primitive);
     ~VertexArray();
 
     void loadMeshData(const MeshData& meshData);
@@ -25,6 +30,7 @@ private:
     GLuint m_ibo = 0;
 
     GLsizei m_vertexCount = 0;
+    MeshPrimitive m_primitive = MeshPrimitive::TRIANGLES;
 
     void loadVertices(const std::vector<Vertex>& vertices);
     void loadIndices(const std::vector<uint32_t>& indices);

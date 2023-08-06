@@ -1,27 +1,12 @@
 #include <systems/SceneRenderer.hpp>
 
-#include <glm/gtc/matrix_transform.hpp>
-#include <glm/gtc/quaternion.hpp>
-#include <iostream>
-
 #include <components/Camera.hpp>
 #include <components/DirectionalLight.hpp>
 #include <core/Scene.hpp>
 #include <shaders/BasicShader.hpp>
+#include <utils/Math.hpp>
 
 namespace texplr {
-
-static glm::mat4 calculateViewMatrix(const Transform& transform)
-{
-    glm::quat pitch = glm::angleAxis(glm::radians(transform.rotation.x), glm::vec3(1.0f, 0.0f, 0.0f));
-    glm::quat yaw = glm::angleAxis(glm::radians(transform.rotation.y), glm::vec3(0.0f, 1.0f, 0.0f));
-    glm::quat roll = glm::angleAxis(glm::radians(transform.rotation.z), glm::vec3(0.0f, 0.0f, 1.0f));
-    glm::quat orientation = glm::normalize(pitch * yaw * roll);
-    glm::mat4 cameraRotation = glm::mat4_cast(orientation);
-    glm::mat4 cameraTranslation = glm::translate(glm::mat4(1.0f), -transform.position);
-
-    return cameraRotation * cameraTranslation;
-}
 
 void SceneRenderer::OnInit()
 {
@@ -33,8 +18,8 @@ void SceneRenderer::OnUpdate(float deltaTime)
     const Camera& camera = m_scene->getWorld()->getComponent<Camera>(m_scene->getActiveCamera());
     const Transform& cameraTransform = m_scene->getWorld()->getComponent<Transform>(m_scene->getActiveCamera());
 
-    m_projectionMatrix = glm::perspective(glm::radians(camera.fov), camera.aspectRatio, camera.near, camera.far);
-    m_viewMatrix = calculateViewMatrix(cameraTransform);
+    m_projectionMatrix = Math::calculateProjectionMatrix(camera);
+    m_viewMatrix = Math::calculateViewMatrix(cameraTransform);
 
     for (EntityHandle entity : m_registeredEntities) {
         if (m_vaos.find(entity) != m_vaos.end()) {
@@ -42,7 +27,7 @@ void SceneRenderer::OnUpdate(float deltaTime)
         }
 
         const Mesh& mesh = m_world->getComponent<Mesh>(entity);
-        std::shared_ptr<VertexArray> vao = std::make_shared<VertexArray>();
+        std::shared_ptr<VertexArray> vao = std::make_shared<VertexArray>(MeshPrimitive::TRIANGLES);
         vao->loadMeshData(mesh.meshData);
 
         m_vaos[entity] = vao;

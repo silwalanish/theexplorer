@@ -4,6 +4,7 @@
 #include <queue>
 
 #include <systems/TransformSystem.hpp>
+#include <utils/Math.hpp>
 
 #include <glm/gtc/matrix_transform.hpp>
 
@@ -80,6 +81,9 @@ void TransformSystem::recalculateTransform(Transform& transform, const Transform
     calculateLocalMatrix(transform);
     calculateModelMatrix(transform, parentTransform);
     calculateDirections(transform);
+
+    glm::vec4 worldPosition = parentTransform.m_modelMatrix * glm::vec4(transform.position, 1.0);
+    transform.m_worldPosition = glm::vec3(worldPosition) / worldPosition.w;
 }
 
 } // namespace texplr

@@ -2,13 +2,16 @@
 
 namespace texplr {
 
-VertexArray::VertexArray()
+VertexArray::VertexArray(MeshPrimitive primitive)
+    : m_primitive(primitive)
 {
     glGenVertexArrays(1, &m_id);
 }
 
 VertexArray::~VertexArray()
 {
+    glDeleteBuffers(1, &m_vbo);
+    glDeleteBuffers(1, &m_ibo);
     glDeleteVertexArrays(1, &m_id);
 }
 
@@ -51,7 +54,19 @@ void VertexArray::bind()
 void VertexArray::draw()
 {
     bind();
-    glDrawElements(GL_TRIANGLES, m_vertexCount, GL_UNSIGNED_INT, (void*)0);
+
+    GLuint primitive;
+    switch (m_primitive) {
+    case MeshPrimitive::LINES:
+        primitive = GL_LINES;
+        break;
+    case MeshPrimitive::TRIANGLES:
+    default:
+        primitive = GL_TRIANGLES;
+        break;
+    }
+
+    glDrawElements(primitive, m_vertexCount, GL_UNSIGNED_INT, (void*)0);
 }
 
 } // namespace texplr

@@ -22,15 +22,17 @@ ShowcaseScene::ShowcaseScene(std::shared_ptr<EventBus> eventBus)
 {
     m_eventBus->subscribe(this, &ShowcaseScene::OnMouseDown);
     m_eventBus->subscribe(this, &ShowcaseScene::OnMouseUp);
+    m_eventBus->subscribe(this, &ShowcaseScene::OnKeyUp);
 }
 
 void ShowcaseScene::OnInit()
 {
     m_renderer = m_world->registerSystem<SceneRenderer>();
+    m_debugRenderer = m_world->registerSystem<DebugRenderer>();
 
     Entity camera(m_world.get());
     camera.addComponent<Camera>(Camera { 0.01f, 1000.0f, 60.0f, 1.33f, true });
-    camera.addComponent<Transform>(Transform { glm::vec3(0.0f, 10.0f, 0.0f), glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(1.0f) });
+    camera.addComponent<Transform>(Transform { glm::vec3(0.0f, 50.0f, 0.0f), glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(1.0f) });
     camera.addScript(new EditorCameraController(30.0f, 1.0f));
     setActiveCamera(camera.getHandle());
 
@@ -57,11 +59,16 @@ void ShowcaseScene::OnInit()
     setSun(sun.getHandle());
 
     m_renderer->setScene(this);
+    m_debugRenderer->setScene(this);
 }
 
 void ShowcaseScene::OnUpdate(float deltaTime)
 {
     m_renderer->render();
+
+    if (m_debugRender) {
+        m_debugRenderer->render();
+    }
 
     // std::ofstream file("debug.log");
     // std::queue<EntityHandle> entites;
@@ -115,6 +122,13 @@ void ShowcaseScene::OnMouseUp(MouseButtonUpEvent* event)
 {
     if (event->button == MouseButtons::BTN_LEFT) {
         getWindow()->unlockMouse();
+    }
+}
+
+void ShowcaseScene::OnKeyUp(KeyUpEvent* event)
+{
+    if (event->key == KeyCodes::GRAVE_ACCENT) {
+        m_debugRender = !m_debugRender;
     }
 }
 

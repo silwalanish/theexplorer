@@ -31,6 +31,7 @@ add_executable(${PROJECT_NAME}
         includes/components/DirectionalLight.hpp
 
         includes/systems/SceneRenderer.hpp
+        includes/systems/DebugRenderer.hpp
         includes/systems/TransformSystem.hpp
         includes/systems/Scripting.hpp
         
@@ -41,6 +42,7 @@ add_executable(${PROJECT_NAME}
         includes/opengl/Shader.hpp
 
         includes/shaders/BasicShader.hpp
+        includes/shaders/DebugShader.hpp
 
         includes/ecs/Component.hpp
         includes/ecs/ComponentManager.hpp
@@ -51,6 +53,8 @@ add_executable(${PROJECT_NAME}
         includes/ecs/World.hpp
         includes/ecs/System.hpp
         includes/ecs/ScopedSystem.hpp
+
+        includes/utils/Math.hpp
 
         includes/terrain/HeightMap.hpp
 
@@ -76,6 +80,7 @@ add_executable(${PROJECT_NAME}
         src/ecs/System.cpp
 
         src/systems/SceneRenderer.cpp
+        src/systems/DebugRenderer.cpp
         src/systems/TransformSystem.cpp
         src/systems/Scripting.cpp
         
@@ -86,6 +91,9 @@ add_executable(${PROJECT_NAME}
         src/opengl/Shader.cpp
 
         src/shaders/BasicShader.cpp
+        src/shaders/DebugShader.cpp
+
+        src/utils/Math.cpp
 
         src/terrain/HeightMap.cpp
 
