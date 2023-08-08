@@ -3,7 +3,7 @@
 #include <core/EventBus.hpp>
 #include <core/GameWindow.hpp>
 #include <core/Input.hpp>
-#include <ecs/World.hpp>
+#include <scripting/ScriptableWorld.hpp>
 
 namespace texplr {
 
@@ -26,7 +26,7 @@ public:
     virtual void OnUpdate(float deltaTime) = 0;
 
     std::shared_ptr<Input> getInputManager() const;
-    std::shared_ptr<World> getWorld() const;
+    std::shared_ptr<ScriptableWorld> getWorld() const;
     std::shared_ptr<EventBus> getEventBus() const;
     std::shared_ptr<GameWindow> getWindow() const;
     EntityHandle getSun() const;
@@ -42,7 +42,7 @@ protected:
     Application* m_application;
 
     std::shared_ptr<Input> m_inputManager;
-    std::shared_ptr<World> m_world;
+    std::shared_ptr<ScriptableWorld> m_world;
     std::shared_ptr<EventBus> m_eventBus;
 };
 

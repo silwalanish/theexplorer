@@ -1,7 +1,5 @@
 #pragma once
 
-#include <memory>
-
 #include <ecs/EntityHandle.hpp>
 #include <ecs/World.hpp>
 
@@ -18,8 +16,6 @@ public:
     {
         m_world->addComponent(m_handle, component);
     }
-
-    void addScript(Script* script);
 
     template <typename ComponentType>
     ComponentType& getComponent()
@@ -53,7 +49,7 @@ public:
     const World* getWorld() const;
     bool isAlive() const;
 
-private:
+protected:
     EntityHandle m_handle = 0;
     World* m_world = nullptr;
 };

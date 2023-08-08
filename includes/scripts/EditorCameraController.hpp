@@ -1,6 +1,6 @@
 #pragma once
 
-#include <core/Script.hpp>
+#include <scripting/Script.hpp>
 
 namespace texplr {
 

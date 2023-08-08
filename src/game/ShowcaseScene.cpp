@@ -8,10 +8,10 @@
 #include <components/Camera.hpp>
 #include <components/DirectionalLight.hpp>
 #include <components/Mesh.hpp>
-#include <components/NativeScript.hpp>
 #include <components/Transform.hpp>
 #include <core/Application.hpp>
-#include <ecs/Entity.hpp>
+#include <scripting/ScriptableEntity.hpp>
+#include <scripting/component/NativeScript.hpp>
 #include <scripts/EditorCameraController.hpp>
 #include <scripts/TerrainGenerator.hpp>
 
@@ -30,10 +30,10 @@ void ShowcaseScene::OnInit()
     m_renderer = m_world->registerSystem<SceneRenderer>();
     m_debugRenderer = m_world->registerSystem<DebugRenderer>();
 
-    Entity camera(m_world.get());
+    ScriptableEntity camera(m_world.get());
     camera.addComponent<Camera>(Camera { 0.01f, 1000.0f, 60.0f, 1.33f, true });
     camera.addComponent<Transform>(Transform { glm::vec3(0.0f, 50.0f, 0.0f), glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(1.0f) });
-    camera.addScript(new EditorCameraController(30.0f, 1.0f));
+    camera.addScript<EditorCameraController>(30.0f, 1.0f);
     setActiveCamera(camera.getHandle());
 
     HeightMap heightMap(0.01f, 15.0f, 4.0f, 0.1f);
@@ -46,9 +46,9 @@ void ShowcaseScene::OnInit()
 
     for (int i = 0; i < chunkPerRow; i++) {
         for (int j = 0; j < chunkPerRow; j++) {
-            Entity terrainChunk(m_world.get());
+            ScriptableEntity terrainChunk(m_world.get());
             terrainChunk.addComponent<Transform>(Transform { glm::vec3(i * chunkSize, 0.0f, j * chunkSize), glm::vec3(0.0f), glm::vec3(1.0f) });
-            terrainChunk.addScript(new TerrainGenerator(25, chunkSize, heightMap));
+            terrainChunk.addScript<TerrainGenerator>(25, chunkSize, heightMap);
 
             terrain.addChild(terrainChunk.getHandle());
         }

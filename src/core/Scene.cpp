@@ -9,7 +9,7 @@ namespace texplr {
 Scene::Scene(std::shared_ptr<EventBus> eventBus)
     : m_eventBus(eventBus)
 {
-    m_world = std::make_shared<World>(m_eventBus);
+    m_world = std::make_shared<ScriptableWorld>(m_eventBus);
     m_world->registerToScene(this);
 }
 
@@ -46,7 +46,7 @@ std::shared_ptr<Input> Scene::getInputManager() const
     return m_inputManager;
 }
 
-std::shared_ptr<World> Scene::getWorld() const
+std::shared_ptr<ScriptableWorld> Scene::getWorld() const
 {
     return m_world;
 }

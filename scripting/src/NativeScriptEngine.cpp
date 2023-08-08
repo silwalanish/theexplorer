@@ -1,17 +1,17 @@
-#include <systems/Scripting.hpp>
+#include <scripting/NativeScriptEngine.hpp>
 
 namespace texplr {
 
-void Scripting::OnInit()
+void NativeScriptEngine::OnInit()
 {
 }
 
-void Scripting::OnUpdate(float deltaTime)
+void NativeScriptEngine::OnUpdate(float deltaTime)
 {
     for (EntityHandle entity : m_registeredEntities) {
         NativeScript& scripts = m_world->getComponent<NativeScript>(entity);
 
-        for (Script* script : scripts.scripts) {
+        for (std::shared_ptr<Script> script : scripts.scripts) {
             script->update(deltaTime);
         }
     }

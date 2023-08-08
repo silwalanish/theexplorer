@@ -18,12 +18,11 @@
 namespace texplr {
 
 class Scene;
-class Script;
 
 class World {
 public:
     World(std::shared_ptr<EventBus> eventBus);
-    ~World();
+    virtual ~World();
 
     World(const World& world) = delete;
     World& operator=(const World& world) = delete;
@@ -49,8 +48,6 @@ public:
     {
         getComponentManager<ComponentType>()->add(handle, component);
     }
-
-    void addScript(EntityHandle handle, Script* script);
 
     template <typename ComponentType>
     ComponentType& getComponent(EntityHandle handle)

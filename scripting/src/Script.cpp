@@ -1,5 +1,6 @@
+#include <scripting/Script.hpp>
+
 #include <core/Scene.hpp>
-#include <core/Script.hpp>
 
 namespace texplr {
 

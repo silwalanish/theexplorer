@@ -1,9 +1,6 @@
 #include <ecs/World.hpp>
 
-#include <components/NativeScript.hpp>
 #include <core/Scene.hpp>
-#include <core/Script.hpp>
-#include <systems/Scripting.hpp>
 #include <systems/TransformSystem.hpp>
 
 namespace texplr {
@@ -14,7 +11,6 @@ World::World(std::shared_ptr<EventBus> eventBus)
     m_entityManager = std::make_unique<EntityManager>(m_eventBus);
 
     registerSystem<TransformSystem>();
-    registerSystem<Scripting>();
 
     m_sceneGraph = std::make_shared<SceneGraph>(createEntity());
     addComponent<Transform>(m_sceneGraph->getRoot(), Transform {});
@@ -47,18 +43,6 @@ void World::destroyEntity(EntityHandle handle)
 {
     m_sceneGraph->removeChild(m_sceneGraph->getParent(handle), handle);
     m_entityManager->destroyEntity(handle);
-}
-
-void World::addScript(EntityHandle handle, Script* script)
-{
-    if (!hasComponent<NativeScript>(handle)) {
-        addComponent<NativeScript>(handle, NativeScript {});
-    }
-
-    script->init();
-    script->attach(handle, this);
-
-    getComponent<NativeScript>(handle).scripts.push_back(script);
 }
 
 void World::addChild(const EntityHandle& parent, const EntityHandle& child)

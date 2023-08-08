@@ -20,20 +20,17 @@ add_executable(${PROJECT_NAME}
         includes/core/Material.hpp
         includes/core/KeyCodes.hpp
         includes/core/Input.hpp
-        includes/core/Script.hpp
         includes/core/Light.hpp
         
         includes/components/Camera.hpp
         includes/components/Transform.hpp
         includes/components/Mesh.hpp
-        includes/components/NativeScript.hpp
         includes/components/Terrain.hpp
         includes/components/DirectionalLight.hpp
 
         includes/systems/SceneRenderer.hpp
         includes/systems/DebugRenderer.hpp
         includes/systems/TransformSystem.hpp
-        includes/systems/Scripting.hpp
         
         includes/scripts/EditorCameraController.hpp
         includes/scripts/TerrainGenerator.hpp
@@ -68,7 +65,6 @@ add_executable(${PROJECT_NAME}
         src/core/Scene.cpp
         src/core/SceneGraph.cpp
         src/core/Input.cpp
-        src/core/Script.cpp
         src/core/MeshData.cpp
 
         src/components/Transform.cpp
@@ -82,7 +78,6 @@ add_executable(${PROJECT_NAME}
         src/systems/SceneRenderer.cpp
         src/systems/DebugRenderer.cpp
         src/systems/TransformSystem.cpp
-        src/systems/Scripting.cpp
         
         src/scripts/EditorCameraController.cpp
         src/scripts/TerrainGenerator.cpp
@@ -101,6 +96,8 @@ add_executable(${PROJECT_NAME}
 
         src/main.cpp
         )
+
+add_subdirectory(scripting)
 
 target_compile_definitions(${PROJECT_NAME} PRIVATE GLFW_INCLUDE_NONE)
 target_include_directories(${PROJECT_NAME} PRIVATE includes)
