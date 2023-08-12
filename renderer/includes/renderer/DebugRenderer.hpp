@@ -11,7 +11,7 @@
 
 namespace texplr {
 
-class ShowcaseScene;
+class RenderableScene;
 
 class DebugRenderer : public virtual ScopedSystem<Transform> {
 public:
@@ -20,13 +20,13 @@ public:
 
     void render();
 
-    void setScene(ShowcaseScene* scene);
+    void setScene(RenderableScene* scene);
 
-    ShowcaseScene* getScene();
-    const ShowcaseScene* getScene() const;
+    RenderableScene* getScene();
+    const RenderableScene* getScene() const;
 
 private:
-    ShowcaseScene* m_scene = nullptr;
+    RenderableScene* m_scene = nullptr;
     std::shared_ptr<Shader> m_shader;
     std::map<EntityHandle, std::shared_ptr<VertexArray>> m_vaos;
 

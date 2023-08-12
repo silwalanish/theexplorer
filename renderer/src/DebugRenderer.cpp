@@ -3,7 +3,7 @@
 #include <core/utils/Math.hpp>
 #include <ecs/components/Camera.hpp>
 #include <ecs/components/DirectionalLight.hpp>
-#include <game/ShowcaseScene.hpp>
+#include <renderer/RenderableScene.hpp>
 #include <renderer/shaders/DebugShader.hpp>
 
 namespace texplr {
@@ -69,17 +69,17 @@ void DebugRenderer::render()
     }
 }
 
-void DebugRenderer::setScene(ShowcaseScene* scene)
+void DebugRenderer::setScene(RenderableScene* scene)
 {
     m_scene = scene;
 }
 
-ShowcaseScene* DebugRenderer::getScene()
+RenderableScene* DebugRenderer::getScene()
 {
     return m_scene;
 }
 
-const ShowcaseScene* DebugRenderer::getScene() const
+const RenderableScene* DebugRenderer::getScene() const
 {
     return m_scene;
 }

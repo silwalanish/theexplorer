@@ -1,7 +1,7 @@
 #include <iostream>
 
 #include <core/Application.hpp>
-#include <game/ShowcaseScene.hpp>
+#include <game/scenes/ShowcaseScene.hpp>
 
 int main(int argc, char const* argv[])
 {

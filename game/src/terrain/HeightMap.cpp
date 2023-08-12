@@ -1,4 +1,4 @@
-#include <terrain/HeightMap.hpp>
+#include <game/terrain/HeightMap.hpp>
 
 #include <glm/gtc/noise.hpp>
 

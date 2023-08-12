@@ -2,7 +2,7 @@
 
 #include <scripting/Script.hpp>
 
-#include <terrain/HeightMap.hpp>
+#include <game/terrain/HeightMap.hpp>
 
 namespace texplr {
 

@@ -1,4 +1,4 @@
-#include <scripts/EditorCameraController.hpp>
+#include <game/scripts/EditorCameraController.hpp>
 
 #include <core/Scene.hpp>
 #include <ecs/components/Camera.hpp>

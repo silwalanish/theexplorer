@@ -1,4 +1,4 @@
-#include <scripts/TerrainGenerator.hpp>
+#include <game/scripts/TerrainGenerator.hpp>
 
 #include <ecs/components/Mesh.hpp>
 #include <ecs/components/Terrain.hpp>

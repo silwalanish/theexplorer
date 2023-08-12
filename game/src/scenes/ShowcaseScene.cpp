@@ -1,4 +1,4 @@
-#include <game/ShowcaseScene.hpp>
+#include <game/scenes/ShowcaseScene.hpp>
 
 #include <fstream>
 #include <glm/gtx/string_cast.hpp>
@@ -10,10 +10,10 @@
 #include <ecs/components/DirectionalLight.hpp>
 #include <ecs/components/Mesh.hpp>
 #include <ecs/components/Transform.hpp>
+#include <game/scripts/EditorCameraController.hpp>
+#include <game/scripts/TerrainGenerator.hpp>
 #include <scripting/ScriptableEntity.hpp>
 #include <scripting/component/NativeScript.hpp>
-#include <scripts/EditorCameraController.hpp>
-#include <scripts/TerrainGenerator.hpp>
 
 namespace texplr {
 

@@ -5,28 +5,13 @@ find_package(GLFW3 REQUIRED)
 find_package(glm REQUIRED)
 find_package(GLEW REQUIRED)
 
-add_executable(${PROJECT_NAME}         
-        includes/scripts/EditorCameraController.hpp
-        includes/scripts/TerrainGenerator.hpp
-
-        includes/terrain/HeightMap.hpp
-
-        includes/game/ShowcaseScene.hpp
-
-        src/scripts/EditorCameraController.cpp
-        src/scripts/TerrainGenerator.cpp
-
-        src/terrain/HeightMap.cpp
-
-        src/game/ShowcaseScene.cpp
-
-        src/main.cpp
-)
+add_executable(${PROJECT_NAME})
 
 add_subdirectory(core)
 add_subdirectory(ecs)
 add_subdirectory(scripting)
 add_subdirectory(renderer)
+add_subdirectory(game)
 
 target_compile_definitions(${PROJECT_NAME} PRIVATE GLFW_INCLUDE_NONE)
 target_include_directories(${PROJECT_NAME} PRIVATE includes)
