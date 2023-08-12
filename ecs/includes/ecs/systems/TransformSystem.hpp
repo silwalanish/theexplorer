@@ -1,7 +1,7 @@
 #pragma once
 
-#include <components/Transform.hpp>
 #include <ecs/ScopedSystem.hpp>
+#include <ecs/components/Transform.hpp>
 
 namespace texplr {
 

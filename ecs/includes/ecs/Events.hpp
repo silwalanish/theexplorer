@@ -1,7 +1,7 @@
 #pragma once
 
 #include <core/Event.hpp>
-#include <ecs/EntityHandle.hpp>
+#include <core/EntityHandle.hpp>
 
 namespace texplr {
 

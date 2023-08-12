@@ -1,8 +1,8 @@
 #include <systems/DebugRenderer.hpp>
 
-#include <components/Camera.hpp>
-#include <components/DirectionalLight.hpp>
-#include <core/Scene.hpp>
+#include <ecs/components/Camera.hpp>
+#include <ecs/components/DirectionalLight.hpp>
+#include <game/ShowcaseScene.hpp>
 #include <shaders/DebugShader.hpp>
 #include <utils/Math.hpp>
 
@@ -69,17 +69,17 @@ void DebugRenderer::render()
     }
 }
 
-void DebugRenderer::setScene(Scene* scene)
+void DebugRenderer::setScene(ShowcaseScene* scene)
 {
     m_scene = scene;
 }
 
-Scene* DebugRenderer::getScene()
+ShowcaseScene* DebugRenderer::getScene()
 {
     return m_scene;
 }
 
-const Scene* DebugRenderer::getScene() const
+const ShowcaseScene* DebugRenderer::getScene() const
 {
     return m_scene;
 }

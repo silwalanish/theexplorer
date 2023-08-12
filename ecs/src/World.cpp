@@ -1,7 +1,7 @@
 #include <ecs/World.hpp>
 
 #include <core/Scene.hpp>
-#include <systems/TransformSystem.hpp>
+#include <ecs/systems/TransformSystem.hpp>
 
 namespace texplr {
 

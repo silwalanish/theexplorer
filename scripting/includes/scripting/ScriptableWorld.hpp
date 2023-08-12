@@ -2,7 +2,7 @@
 
 #include <memory>
 
-#include <ecs/EntityHandle.hpp>
+#include <core/EntityHandle.hpp>
 #include <ecs/World.hpp>
 
 #include <scripting/Script.hpp>

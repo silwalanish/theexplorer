@@ -4,8 +4,8 @@
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/quaternion.hpp>
 
-#include <components/Camera.hpp>
-#include <components/Transform.hpp>
+#include <ecs/components/Camera.hpp>
+#include <ecs/components/Transform.hpp>
 
 namespace texplr {
 

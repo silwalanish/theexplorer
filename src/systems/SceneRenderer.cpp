@@ -1,8 +1,8 @@
 #include <systems/SceneRenderer.hpp>
 
-#include <components/Camera.hpp>
-#include <components/DirectionalLight.hpp>
-#include <core/Scene.hpp>
+#include <ecs/components/Camera.hpp>
+#include <ecs/components/DirectionalLight.hpp>
+#include <game/ShowcaseScene.hpp>
 #include <shaders/BasicShader.hpp>
 #include <utils/Math.hpp>
 
@@ -68,17 +68,17 @@ void SceneRenderer::render()
     }
 }
 
-void SceneRenderer::setScene(Scene* scene)
+void SceneRenderer::setScene(ShowcaseScene* scene)
 {
     m_scene = scene;
 }
 
-Scene* SceneRenderer::getScene()
+ShowcaseScene* SceneRenderer::getScene()
 {
     return m_scene;
 }
 
-const Scene* SceneRenderer::getScene() const
+const ShowcaseScene* SceneRenderer::getScene() const
 {
     return m_scene;
 }

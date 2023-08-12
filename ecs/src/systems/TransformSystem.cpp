@@ -1,9 +1,8 @@
-#pragma once
+#include <ecs/systems/TransformSystem.hpp>
 
 #include <algorithm>
 #include <queue>
 
-#include <systems/TransformSystem.hpp>
 #include <utils/Math.hpp>
 
 #include <glm/gtc/matrix_transform.hpp>

@@ -5,7 +5,7 @@
 
 #include <core/EventBus.hpp>
 #include <core/Input.hpp>
-#include <ecs/EntityHandle.hpp>
+#include <core/EntityHandle.hpp>
 #include <ecs/Events.hpp>
 
 namespace texplr {

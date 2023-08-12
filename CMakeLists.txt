@@ -6,31 +6,8 @@ find_package(glm REQUIRED)
 find_package(GLEW REQUIRED)
 
 add_executable(${PROJECT_NAME} 
-        includes/core/Application.hpp
-        includes/core/GameWindow.hpp
-        includes/core/Event.hpp
-        includes/core/Events.hpp
-        includes/core/EventBus.hpp
-        includes/core/GLFWContext.hpp
-        includes/core/GLFWContext.hpp
-        includes/core/Scene.hpp
-        includes/core/SceneGraph.hpp
-        includes/core/Vertex.hpp
-        includes/core/MeshData.hpp
-        includes/core/Material.hpp
-        includes/core/KeyCodes.hpp
-        includes/core/Input.hpp
-        includes/core/Light.hpp
-        
-        includes/components/Camera.hpp
-        includes/components/Transform.hpp
-        includes/components/Mesh.hpp
-        includes/components/Terrain.hpp
-        includes/components/DirectionalLight.hpp
-
         includes/systems/SceneRenderer.hpp
         includes/systems/DebugRenderer.hpp
-        includes/systems/TransformSystem.hpp
         
         includes/scripts/EditorCameraController.hpp
         includes/scripts/TerrainGenerator.hpp
@@ -41,43 +18,14 @@ add_executable(${PROJECT_NAME}
         includes/shaders/BasicShader.hpp
         includes/shaders/DebugShader.hpp
 
-        includes/ecs/Component.hpp
-        includes/ecs/ComponentManager.hpp
-        includes/ecs/Entity.hpp
-        includes/ecs/EntityHandle.hpp
-        includes/ecs/Events.hpp
-        includes/ecs/EntityManager.hpp
-        includes/ecs/World.hpp
-        includes/ecs/System.hpp
-        includes/ecs/ScopedSystem.hpp
-
         includes/utils/Math.hpp
 
         includes/terrain/HeightMap.hpp
 
         includes/game/ShowcaseScene.hpp
 
-        src/core/GameWindow.cpp
-        src/core/GLFWContext.cpp
-        src/core/GLEWContext.cpp
-        src/core/Application.cpp
-        src/core/Event.cpp
-        src/core/Scene.cpp
-        src/core/SceneGraph.cpp
-        src/core/Input.cpp
-        src/core/MeshData.cpp
-
-        src/components/Transform.cpp
-
-        src/ecs/World.cpp
-        src/ecs/Entity.cpp
-        src/ecs/Component.cpp
-        src/ecs/EntityManager.cpp
-        src/ecs/System.cpp
-
         src/systems/SceneRenderer.cpp
         src/systems/DebugRenderer.cpp
-        src/systems/TransformSystem.cpp
         
         src/scripts/EditorCameraController.cpp
         src/scripts/TerrainGenerator.cpp
@@ -95,8 +43,10 @@ add_executable(${PROJECT_NAME}
         src/game/ShowcaseScene.cpp
 
         src/main.cpp
-        )
+)
 
+add_subdirectory(core)
+add_subdirectory(ecs)
 add_subdirectory(scripting)
 
 target_compile_definitions(${PROJECT_NAME} PRIVATE GLFW_INCLUDE_NONE)

@@ -6,14 +6,14 @@
 #include <utility>
 #include <vector>
 
-#include <components/Transform.hpp>
 #include <core/EventBus.hpp>
 #include <core/SceneGraph.hpp>
 #include <ecs/Component.hpp>
 #include <ecs/ComponentManager.hpp>
-#include <ecs/EntityHandle.hpp>
+#include <core/EntityHandle.hpp>
 #include <ecs/EntityManager.hpp>
 #include <ecs/System.hpp>
+#include <ecs/components/Transform.hpp>
 
 namespace texplr {
 

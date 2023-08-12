@@ -1,8 +1,8 @@
 #include <scripts/EditorCameraController.hpp>
 
-#include <components/Camera.hpp>
-#include <components/Transform.hpp>
 #include <core/Scene.hpp>
+#include <ecs/components/Camera.hpp>
+#include <ecs/components/Transform.hpp>
 
 namespace texplr {
 

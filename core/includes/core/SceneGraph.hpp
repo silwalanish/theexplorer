@@ -3,7 +3,7 @@
 #include <map>
 #include <set>
 
-#include <ecs/EntityHandle.hpp>
+#include <core/EntityHandle.hpp>
 
 namespace texplr {
 

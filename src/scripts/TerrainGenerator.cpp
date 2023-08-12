@@ -1,8 +1,8 @@
 #include <scripts/TerrainGenerator.hpp>
 
-#include <components/Mesh.hpp>
-#include <components/Terrain.hpp>
-#include <components/Transform.hpp>
+#include <ecs/components/Mesh.hpp>
+#include <ecs/components/Terrain.hpp>
+#include <ecs/components/Transform.hpp>
 
 #include <glm/gtc/noise.hpp>
 

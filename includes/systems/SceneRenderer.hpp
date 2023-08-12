@@ -3,16 +3,16 @@
 #include <glm/glm.hpp>
 #include <memory>
 
-#include <components/Mesh.hpp>
-#include <components/Transform.hpp>
-#include <ecs/EntityHandle.hpp>
+#include <core/EntityHandle.hpp>
 #include <ecs/ScopedSystem.hpp>
+#include <ecs/components/Mesh.hpp>
+#include <ecs/components/Transform.hpp>
 #include <opengl/Shader.hpp>
 #include <opengl/VertexArray.hpp>
 
 namespace texplr {
 
-class Scene;
+class ShowcaseScene;
 
 class SceneRenderer : public virtual ScopedSystem<Transform, Mesh> {
 public:
@@ -21,13 +21,13 @@ public:
 
     void render();
 
-    void setScene(Scene* scene);
+    void setScene(ShowcaseScene* scene);
 
-    Scene* getScene();
-    const Scene* getScene() const;
+    ShowcaseScene* getScene();
+    const ShowcaseScene* getScene() const;
 
 private:
-    Scene* m_scene = nullptr;
+    ShowcaseScene* m_scene = nullptr;
     std::shared_ptr<Shader> m_shader;
     std::map<EntityHandle, std::shared_ptr<VertexArray>> m_vaos;
 

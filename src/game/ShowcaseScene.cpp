@@ -5,11 +5,11 @@
 #include <iostream>
 #include <queue>
 
-#include <components/Camera.hpp>
-#include <components/DirectionalLight.hpp>
-#include <components/Mesh.hpp>
-#include <components/Transform.hpp>
 #include <core/Application.hpp>
+#include <ecs/components/Camera.hpp>
+#include <ecs/components/DirectionalLight.hpp>
+#include <ecs/components/Mesh.hpp>
+#include <ecs/components/Transform.hpp>
 #include <scripting/ScriptableEntity.hpp>
 #include <scripting/component/NativeScript.hpp>
 #include <scripts/EditorCameraController.hpp>
@@ -20,6 +20,9 @@ namespace texplr {
 ShowcaseScene::ShowcaseScene(std::shared_ptr<EventBus> eventBus)
     : Scene(eventBus)
 {
+    m_world = std::make_shared<ScriptableWorld>(m_eventBus);
+    m_world->registerToScene(this);
+
     m_eventBus->subscribe(this, &ShowcaseScene::OnMouseDown);
     m_eventBus->subscribe(this, &ShowcaseScene::OnMouseUp);
     m_eventBus->subscribe(this, &ShowcaseScene::OnKeyUp);
@@ -64,6 +67,7 @@ void ShowcaseScene::OnInit()
 
 void ShowcaseScene::OnUpdate(float deltaTime)
 {
+    m_world->update(deltaTime);
     m_renderer->render();
 
     if (m_debugRender) {
@@ -109,6 +113,35 @@ void ShowcaseScene::OnUpdate(float deltaTime)
     // file.close();
 
     // m_application->stop();
+}
+
+EntityHandle ShowcaseScene::getSun() const
+{
+    return m_sun;
+}
+
+EntityHandle ShowcaseScene::getActiveCamera() const
+{
+    return m_activeCamera;
+}
+
+std::shared_ptr<ScriptableWorld> ShowcaseScene::getWorld() const
+{
+    return m_world;
+}
+
+void ShowcaseScene::setSun(EntityHandle sun)
+{
+    assert(m_world->hasComponent<DirectionalLight>(sun) && "Entity needs to have 'DirectionalLight' component.");
+
+    m_sun = sun;
+}
+
+void ShowcaseScene::setActiveCamera(EntityHandle camera)
+{
+    assert(m_world->hasComponent<Camera>(camera) && "Entity needs to have 'Camera' component.");
+
+    m_activeCamera = camera;
 }
 
 void ShowcaseScene::OnMouseDown(MouseButtonDownEvent* event)
