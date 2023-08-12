@@ -3,7 +3,7 @@
 namespace texplr {
 
 Entity::Entity(World* world)
-    : m_handle(world->createEntity())
+    : m_handle(world->getScene()->createEntity())
     , m_world(world)
 {
 }
@@ -42,7 +42,7 @@ EntityHandle Entity::getParent() const
 
 void Entity::destroy()
 {
-    m_world->destroyEntity(m_handle);
+    m_world->getScene()->destroyEntity(m_handle);
     m_handle = 0;
 }
 

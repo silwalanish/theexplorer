@@ -1,6 +1,6 @@
-#include <ecs/EntityManager.hpp>
+#include <core/EntityManager.hpp>
 
-#include <ecs/Events.hpp>
+#include <core/Events.hpp>
 
 namespace texplr {
 
@@ -26,12 +26,15 @@ EntityManager::~EntityManager()
 
 EntityHandle EntityManager::createEntity()
 {
+    EntityHandle entityHandle;
     if (m_freeEntities.empty()) {
-        return ++m_lastEntity;
+        entityHandle = ++m_lastEntity;
+    } else {
+        entityHandle = *m_freeEntities.begin();
+        m_freeEntities.erase(m_freeEntities.begin());
     }
 
-    EntityHandle entityHandle = *m_freeEntities.begin();
-    m_freeEntities.erase(m_freeEntities.begin());
+    m_eventBus->notify(new EntityCreatedEvent(entityHandle));
 
     return entityHandle;
 }

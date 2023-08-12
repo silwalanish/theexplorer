@@ -8,12 +8,9 @@ namespace texplr {
 World::World(std::shared_ptr<EventBus> eventBus)
     : m_eventBus(eventBus)
 {
-    m_entityManager = std::make_unique<EntityManager>(m_eventBus);
-
     registerSystem<TransformSystem>();
 
-    m_sceneGraph = std::make_shared<SceneGraph>(createEntity());
-    addComponent<Transform>(m_sceneGraph->getRoot(), Transform {});
+    m_eventBus->subscribe(this, &World::OnEntityCreated);
 }
 
 World::~World()
@@ -27,47 +24,33 @@ void World::update(float deltaTime)
     }
 }
 
-EntityHandle World::createEntity()
-{
-    EntityHandle entity = m_entityManager->createEntity();
-
-    if (m_sceneGraph) {
-        addComponent<Transform>(entity, Transform {});
-        m_sceneGraph->addChild(m_sceneGraph->getRoot(), entity);
-    }
-
-    return entity;
-}
-
-void World::destroyEntity(EntityHandle handle)
-{
-    m_sceneGraph->removeChild(m_sceneGraph->getParent(handle), handle);
-    m_entityManager->destroyEntity(handle);
-}
-
 void World::addChild(const EntityHandle& parent, const EntityHandle& child)
 {
-    m_sceneGraph->addChild(parent, child);
+    m_scene->addChild(parent, child);
 }
 
 void World::removeChild(const EntityHandle& parent, const EntityHandle& child)
 {
-    m_sceneGraph->removeChild(parent, child);
+    m_scene->removeChild(parent, child);
 }
 
 const std::set<EntityHandle>& World::getChildren(const EntityHandle& parent) const
 {
-    return m_sceneGraph->getChildren(parent);
+    return m_scene->getChildren(parent);
 }
 
 EntityHandle World::getParent(const EntityHandle& child) const
 {
-    return m_sceneGraph->getParent(child);
+    return m_scene->getParent(child);
 }
 
 void World::registerToScene(Scene* scene)
 {
     m_scene = scene;
+
+    if (!hasComponent<Transform>(m_scene->getRoot())) {
+        addComponent<Transform>(m_scene->getRoot(), Transform {});
+    }
 }
 
 Scene* World::getScene()
@@ -87,7 +70,12 @@ std::shared_ptr<EventBus> World::getEventBus() const
 
 std::shared_ptr<SceneGraph> World::getSceneGraph() const
 {
-    return m_sceneGraph;
+    return m_scene->getSceneGraph();
+}
+
+void World::OnEntityCreated(EntityCreatedEvent* event)
+{
+    addComponent<Transform>(event->entity, Transform {});
 }
 
 } // namespace texplr

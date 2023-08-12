@@ -1,4 +1,4 @@
-#include <shaders/BasicShader.hpp>
+#include <renderer/shaders/BasicShader.hpp>
 
 namespace texplr {
 

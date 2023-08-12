@@ -18,22 +18,22 @@
 namespace texplr {
 
 ShowcaseScene::ShowcaseScene(std::shared_ptr<EventBus> eventBus)
-    : Scene(eventBus)
+    : RenderableScene(eventBus)
+    , Scene(eventBus)
 {
-    m_world = std::make_shared<ScriptableWorld>(m_eventBus);
-    m_world->registerToScene(this);
-
     m_eventBus->subscribe(this, &ShowcaseScene::OnMouseDown);
     m_eventBus->subscribe(this, &ShowcaseScene::OnMouseUp);
     m_eventBus->subscribe(this, &ShowcaseScene::OnKeyUp);
 }
 
+ShowcaseScene::~ShowcaseScene() { }
+
 void ShowcaseScene::OnInit()
 {
-    m_renderer = m_world->registerSystem<SceneRenderer>();
-    m_debugRenderer = m_world->registerSystem<DebugRenderer>();
+    std::shared_ptr<ScriptableWorld> world = createWorld<ScriptableWorld>();
+    m_debugRenderer = world->registerSystem<DebugRenderer>();
 
-    ScriptableEntity camera(m_world.get());
+    ScriptableEntity camera(world.get());
     camera.addComponent<Camera>(Camera { 0.01f, 1000.0f, 60.0f, 1.33f, true });
     camera.addComponent<Transform>(Transform { glm::vec3(0.0f, 50.0f, 0.0f), glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(1.0f) });
     camera.addScript<EditorCameraController>(30.0f, 1.0f);
@@ -44,12 +44,12 @@ void ShowcaseScene::OnInit()
     int chunkPerRow = 5;
     glm::vec3 startChunk(-(chunkPerRow - 1) * (chunkSize / 2.0f), 0.0f, -(chunkPerRow - 1) * (chunkSize / 2.0f));
 
-    Entity terrain(m_world.get());
+    Entity terrain(world.get());
     terrain.addComponent<Transform>(Transform { startChunk, glm::vec3(0.0f), glm::vec3(1.0f) });
 
     for (int i = 0; i < chunkPerRow; i++) {
         for (int j = 0; j < chunkPerRow; j++) {
-            ScriptableEntity terrainChunk(m_world.get());
+            ScriptableEntity terrainChunk(world.get());
             terrainChunk.addComponent<Transform>(Transform { glm::vec3(i * chunkSize, 0.0f, j * chunkSize), glm::vec3(0.0f), glm::vec3(1.0f) });
             terrainChunk.addScript<TerrainGenerator>(25, chunkSize, heightMap);
 
@@ -57,7 +57,7 @@ void ShowcaseScene::OnInit()
         }
     }
 
-    Entity sun(m_world.get());
+    Entity sun(world.get());
     sun.addComponent<DirectionalLight>(DirectionalLight { Light { 0.05f, glm::vec3(0.8f, 0.8f, 0.9f), glm::vec3(0.0f, -0.25f, 0.5f) } });
     setSun(sun.getHandle());
 
@@ -67,8 +67,7 @@ void ShowcaseScene::OnInit()
 
 void ShowcaseScene::OnUpdate(float deltaTime)
 {
-    m_world->update(deltaTime);
-    m_renderer->render();
+    RenderableScene::OnUpdate(deltaTime);
 
     if (m_debugRender) {
         m_debugRenderer->render();
@@ -114,36 +113,6 @@ void ShowcaseScene::OnUpdate(float deltaTime)
 
     // m_application->stop();
 }
-
-EntityHandle ShowcaseScene::getSun() const
-{
-    return m_sun;
-}
-
-EntityHandle ShowcaseScene::getActiveCamera() const
-{
-    return m_activeCamera;
-}
-
-std::shared_ptr<ScriptableWorld> ShowcaseScene::getWorld() const
-{
-    return m_world;
-}
-
-void ShowcaseScene::setSun(EntityHandle sun)
-{
-    assert(m_world->hasComponent<DirectionalLight>(sun) && "Entity needs to have 'DirectionalLight' component.");
-
-    m_sun = sun;
-}
-
-void ShowcaseScene::setActiveCamera(EntityHandle camera)
-{
-    assert(m_world->hasComponent<Camera>(camera) && "Entity needs to have 'Camera' component.");
-
-    m_activeCamera = camera;
-}
-
 void ShowcaseScene::OnMouseDown(MouseButtonDownEvent* event)
 {
     if (event->button == MouseButtons::BTN_LEFT) {

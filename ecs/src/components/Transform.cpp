@@ -1,4 +1,4 @@
-#include <components/Transform.hpp>
+#include <ecs/components/Transform.hpp>
 
 namespace texplr {
 

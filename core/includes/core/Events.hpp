@@ -2,6 +2,7 @@
 
 #include <glm/glm.hpp>
 
+#include <core/EntityHandle.hpp>
 #include <core/Event.hpp>
 #include <core/KeyCodes.hpp>
 
@@ -68,6 +69,24 @@ struct MouseScrollEvent : public Event {
 
     MouseScrollEvent(const glm::vec2& scrollOffset)
         : scrollOffset(scrollOffset)
+    {
+    }
+};
+
+struct EntityCreatedEvent : public Event {
+    const EntityHandle entity;
+
+    EntityCreatedEvent(EntityHandle entity)
+        : entity(entity)
+    {
+    }
+};
+
+struct EntityDestroyedEvent : public Event {
+    const EntityHandle entity;
+
+    EntityDestroyedEvent(EntityHandle entity)
+        : entity(entity)
     {
     }
 };

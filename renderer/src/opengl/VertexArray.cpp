@@ -1,4 +1,4 @@
-#include <opengl/VertexArray.hpp>
+#include <renderer/opengl/VertexArray.hpp>
 
 namespace texplr {
 

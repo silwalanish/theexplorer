@@ -6,18 +6,15 @@
 #include <utility>
 #include <vector>
 
+#include <core/EntityHandle.hpp>
 #include <core/EventBus.hpp>
-#include <core/SceneGraph.hpp>
+#include <core/Scene.hpp>
 #include <ecs/Component.hpp>
 #include <ecs/ComponentManager.hpp>
-#include <core/EntityHandle.hpp>
-#include <ecs/EntityManager.hpp>
 #include <ecs/System.hpp>
 #include <ecs/components/Transform.hpp>
 
 namespace texplr {
-
-class Scene;
 
 class World {
 public:
@@ -39,9 +36,6 @@ public:
 
         return system;
     }
-
-    EntityHandle createEntity();
-    void destroyEntity(EntityHandle handle);
 
     template <typename ComponentType>
     void addComponent(EntityHandle handle, const ComponentType& component)
@@ -96,11 +90,7 @@ public:
     std::shared_ptr<SceneGraph> getSceneGraph() const;
 
 private:
-    EntityHandle m_root;
-
     std::map<uint32_t, std::unique_ptr<BaseComponentManager>> m_componentManagers;
-    std::unique_ptr<EntityManager> m_entityManager;
-    std::shared_ptr<SceneGraph> m_sceneGraph;
     std::vector<std::shared_ptr<System>> m_systems;
     std::shared_ptr<EventBus> m_eventBus;
     Scene* m_scene;
@@ -114,6 +104,8 @@ private:
 
         return static_cast<ComponentManager<ComponentType>*>(m_componentManagers[ComponentType::GetId()].get());
     }
+
+    void OnEntityCreated(EntityCreatedEvent* event);
 };
 
 } // namespace texplr

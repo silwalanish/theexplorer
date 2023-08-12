@@ -1,4 +1,4 @@
-#include <opengl/Shader.hpp>
+#include <renderer/opengl/Shader.hpp>
 
 #include <glm/gtc/type_ptr.hpp>
 #include <iostream>

@@ -1,4 +1,4 @@
-#include <shaders/DebugShader.hpp>
+#include <renderer/shaders/DebugShader.hpp>
 
 namespace texplr {
 

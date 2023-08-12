@@ -1,10 +1,10 @@
-#include <systems/SceneRenderer.hpp>
+#include <renderer/SceneRenderer.hpp>
 
+#include <core/utils/Math.hpp>
 #include <ecs/components/Camera.hpp>
 #include <ecs/components/DirectionalLight.hpp>
-#include <game/ShowcaseScene.hpp>
-#include <shaders/BasicShader.hpp>
-#include <utils/Math.hpp>
+#include <renderer/RenderableScene.hpp>
+#include <renderer/shaders/BasicShader.hpp>
 
 namespace texplr {
 
@@ -15,8 +15,8 @@ void SceneRenderer::OnInit()
 
 void SceneRenderer::OnUpdate(float deltaTime)
 {
-    const Camera& camera = m_scene->getWorld()->getComponent<Camera>(m_scene->getActiveCamera());
-    const Transform& cameraTransform = m_scene->getWorld()->getComponent<Transform>(m_scene->getActiveCamera());
+    const Camera& camera = m_world->getComponent<Camera>(m_scene->getActiveCamera());
+    const Transform& cameraTransform = m_world->getComponent<Transform>(m_scene->getActiveCamera());
 
     m_projectionMatrix = Math::calculateProjectionMatrix(camera);
     m_viewMatrix = Math::calculateViewMatrix(cameraTransform);
@@ -68,17 +68,17 @@ void SceneRenderer::render()
     }
 }
 
-void SceneRenderer::setScene(ShowcaseScene* scene)
+void SceneRenderer::setScene(RenderableScene* scene)
 {
     m_scene = scene;
 }
 
-ShowcaseScene* SceneRenderer::getScene()
+RenderableScene* SceneRenderer::getScene()
 {
     return m_scene;
 }
 
-const ShowcaseScene* SceneRenderer::getScene() const
+const RenderableScene* SceneRenderer::getScene() const
 {
     return m_scene;
 }

@@ -1,10 +1,10 @@
-#include <systems/DebugRenderer.hpp>
+#include <renderer/DebugRenderer.hpp>
 
+#include <core/utils/Math.hpp>
 #include <ecs/components/Camera.hpp>
 #include <ecs/components/DirectionalLight.hpp>
 #include <game/ShowcaseScene.hpp>
-#include <shaders/DebugShader.hpp>
-#include <utils/Math.hpp>
+#include <renderer/shaders/DebugShader.hpp>
 
 namespace texplr {
 

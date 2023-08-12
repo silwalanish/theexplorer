@@ -1,6 +1,6 @@
 #pragma once
 
-#include <opengl/Shader.hpp>
+#include <renderer/opengl/Shader.hpp>
 
 namespace texplr {
 

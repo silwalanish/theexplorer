@@ -5,28 +5,29 @@
 
 #include <core/EntityHandle.hpp>
 #include <ecs/ScopedSystem.hpp>
+#include <ecs/components/Mesh.hpp>
 #include <ecs/components/Transform.hpp>
-#include <opengl/Shader.hpp>
-#include <opengl/VertexArray.hpp>
+#include <renderer/opengl/Shader.hpp>
+#include <renderer/opengl/VertexArray.hpp>
 
 namespace texplr {
 
-class ShowcaseScene;
+class RenderableScene;
 
-class DebugRenderer : public virtual ScopedSystem<Transform> {
+class SceneRenderer : public virtual ScopedSystem<Transform, Mesh> {
 public:
     virtual void OnInit() override;
     virtual void OnUpdate(float deltaTime) override;
 
     void render();
 
-    void setScene(ShowcaseScene* scene);
+    void setScene(RenderableScene* scene);
 
-    ShowcaseScene* getScene();
-    const ShowcaseScene* getScene() const;
+    RenderableScene* getScene();
+    const RenderableScene* getScene() const;
 
 private:
-    ShowcaseScene* m_scene = nullptr;
+    RenderableScene* m_scene = nullptr;
     std::shared_ptr<Shader> m_shader;
     std::map<EntityHandle, std::shared_ptr<VertexArray>> m_vaos;
 

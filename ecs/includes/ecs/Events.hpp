@@ -1,7 +1,7 @@
 #pragma once
 
-#include <core/Event.hpp>
 #include <core/EntityHandle.hpp>
+#include <core/Event.hpp>
 
 namespace texplr {
 
@@ -25,15 +25,6 @@ struct ComponentRemovedEvent : public Event {
     ComponentRemovedEvent(EntityHandle entity, const ComponentType& component)
         : entity(entity)
         , component(component)
-    {
-    }
-};
-
-struct EntityDestroyedEvent : public Event {
-    const EntityHandle entity;
-
-    EntityDestroyedEvent(EntityHandle entity)
-        : entity(entity)
     {
     }
 };

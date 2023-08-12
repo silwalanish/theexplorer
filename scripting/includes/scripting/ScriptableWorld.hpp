@@ -28,9 +28,6 @@ public:
 
         getComponent<NativeScript>(handle).scripts.push_back(script);
     }
-
-protected:
-    std::shared_ptr<World> m_world;
 };
 
 } // namespace texplr

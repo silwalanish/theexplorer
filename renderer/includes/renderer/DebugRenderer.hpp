@@ -5,16 +5,15 @@
 
 #include <core/EntityHandle.hpp>
 #include <ecs/ScopedSystem.hpp>
-#include <ecs/components/Mesh.hpp>
 #include <ecs/components/Transform.hpp>
-#include <opengl/Shader.hpp>
-#include <opengl/VertexArray.hpp>
+#include <renderer/opengl/Shader.hpp>
+#include <renderer/opengl/VertexArray.hpp>
 
 namespace texplr {
 
 class ShowcaseScene;
 
-class SceneRenderer : public virtual ScopedSystem<Transform, Mesh> {
+class DebugRenderer : public virtual ScopedSystem<Transform> {
 public:
     virtual void OnInit() override;
     virtual void OnUpdate(float deltaTime) override;
