@@ -1,0 +1,41 @@
+[project]
+name = "theexplorer"
+version = "0.0.1"
+description = 'The Explorer Game Engine'
+readme = "README.md"
+requires-python = ">=3.8"
+license = "MIT"
+keywords = []
+authors = [
+  { name = "silwalanish", email = "silwalanish@gmail.com" },
+]
+classifiers = [
+  "Development Status :: 4 - Beta",
+  "Programming Language :: Python",
+  "Programming Language :: Python :: 3.8",
+  "Programming Language :: Python :: 3.9",
+  "Programming Language :: Python :: 3.10",
+  "Programming Language :: Python :: 3.11",
+  "Programming Language :: Python :: 3.12",
+  "Programming Language :: Python :: Implementation :: CPython",
+  "Programming Language :: Python :: Implementation :: PyPy",
+]
+dependencies = [
+  "conan"
+]
+
+[tool.hatch.build]
+only-include = ["conanfile.py"]
+
+[tool.hatch.envs.windows.scripts]
+build = "conan build . --output-folder=bin/Release --build=missing -pr:a=./conan/windows-release"
+debug = "conan build . --output-folder=bin/Debug --build=missing -pr:a=./conan/windows-debug"
+
+[project.urls]
+Documentation = "https://github.com/silwalanish/theexplorer#readme"
+Issues = "https://github.com/silwalanish/theexplorer/issues"
+Source = "https://github.com/silwalanish/theexplorer"
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
