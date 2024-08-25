@@ -11,6 +11,7 @@ add_subdirectory(core)
 add_subdirectory(ecs)
 add_subdirectory(scripting)
 add_subdirectory(renderer)
+add_subdirectory(shapes)
 add_subdirectory(game)
 
 target_compile_definitions(${PROJECT_NAME} PRIVATE GLFW_INCLUDE_NONE)

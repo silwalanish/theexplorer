@@ -13,6 +13,7 @@
 #include <game/scripts/EditorCameraController.hpp>
 #include <scripting/ScriptableEntity.hpp>
 #include <scripting/component/NativeScript.hpp>
+#include <shapes/Cube.hpp>
 
 namespace texplr {
 
@@ -34,13 +35,25 @@ void ShowcaseScene::OnInit()
 
     ScriptableEntity camera(world.get());
     camera.addComponent<Camera>(Camera { 0.01f, 1000.0f, 60.0f, 1.33f, true });
-    camera.addComponent<Transform>(Transform { glm::vec3(0.0f, 50.0f, 0.0f), glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(1.0f) });
+    camera.addComponent<Transform>(Transform { glm::vec3(0.0f, 2.0f, -5.0f), glm::vec3(20.0f, 190.0f, 0.0f), glm::vec3(1.0f) });
     camera.addScript<EditorCameraController>(30.0f, 5.0f);
     setActiveCamera(camera.getHandle());
 
     Entity sun(world.get());
     sun.addComponent<DirectionalLight>(DirectionalLight { Light { 0.05f, glm::vec3(0.8f, 0.8f, 0.9f), glm::vec3(0.0f, -0.25f, 0.5f) } });
     setSun(sun.getHandle());
+
+    Entity cube(world.get());
+    cube.addComponent<Transform>(Transform {});
+    cube.addComponent<Mesh>(Mesh { Cube::Generate(1.0f), Material { glm::vec4(1.0f) } });
+
+    Entity cube2(world.get());
+    cube2.addComponent<Transform>(Transform { glm::vec3(2.0f), glm::vec3(20.0f), glm::vec3(1.0f) });
+    cube2.addComponent<Mesh>(Mesh { Cube::Generate(2.0f), Material { glm::vec4(1.0f, 1.0f, 0.0f, 1.0f) } });
+
+    Entity ground(world.get());
+    ground.addComponent<Transform>(Transform { glm::vec3(0.0f, -1.0f, 0.0f), glm::vec3(0.0f), glm::vec3(20.0f, 1.0f, 20.0f) });
+    ground.addComponent<Mesh>(Mesh { Cube::Generate(1.0f), Material { glm::vec4(0.5f, 1.0f, 0.5f, 1.0f) } });
 
     m_renderer->setScene(this);
     m_debugRenderer->setScene(this);
