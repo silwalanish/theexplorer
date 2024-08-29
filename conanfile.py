@@ -17,6 +17,7 @@ class theexplorerRecipe(ConanFile):
         self.requires("glfw/3.3.8")
         self.requires("glew/2.2.0")
         self.requires("glm/cci.20230113")
+        self.requires("bullet3/3.25")
 
     def build_requirements(self):
         self.tool_requires("cmake/3.22.6")

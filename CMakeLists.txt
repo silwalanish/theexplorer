@@ -4,6 +4,7 @@ project(theexplorer CXX)
 find_package(GLFW3 REQUIRED)
 find_package(glm REQUIRED)
 find_package(GLEW REQUIRED)
+find_package(Bullet REQUIRED)
 
 add_executable(${PROJECT_NAME})
 
@@ -16,7 +17,7 @@ add_subdirectory(game)
 
 target_compile_definitions(${PROJECT_NAME} PRIVATE GLFW_INCLUDE_NONE)
 target_include_directories(${PROJECT_NAME} PRIVATE includes)
-target_link_libraries(${PROJECT_NAME} glfw glm::glm GLEW::GLEW)
+target_link_libraries(${PROJECT_NAME} glfw glm::glm GLEW::GLEW Bullet::Bullet)
 
 install(TARGETS ${PROJECT_NAME} DESTINATION "."
         RUNTIME DESTINATION bin
